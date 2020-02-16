@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html onprerender="
+	(url.font_size && this.style.setProperty('font-size', url.font_size)),
+	(url.reduced_motion && this.setAttribute('data-user-reduced-motion', url.reduced_motion)),
+	(url.color_scheme && this.setAttribute('data-user-color-scheme', url.color_scheme)),
+	(url.color_theme && window.addEventListener('load', () => (qad.color_theme = '#'+url.color_theme)))
+" lang="ru">
+<head>
+	<!-- link rel="manifest" href="./package.json" / -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="" />
+	<meta name="color-scheme" content="dark light" />
+	<title>Qad v2</title>
+	<style>body,html.spinner body{visibility:hidden}html:after,.spinner:after{content:'';border-radius:50%;border:4px transparent solid;border-top-color:var(--theme,#3F51B5);animation:spinner 1s infinite;position:fixed}html:after{height:40px;width:40px;left:50%;top:50%;margin:-20px 0 0 -20px}@keyframes spinner{to{transform:rotate(360deg)}}</style>
+	<link rel="preload" href="css/full.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+	<noscript><link rel="stylesheet" href="css/full.css" /></noscript>
+	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+	<link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" /></noscript>
+</head>
+<body>
+	<aside onprerender="(url.nolpanel && !this.remove()) || (url.noslpanel && this.setAttribute('hidden', true))">
+		<header onprerender="
+			(url.nohlpanel && this.remove() || (this.nextElementSibling.remove(), this.nextElementSibling.remove())),
+			(!url.nohpimage && this.style.setProperty('--header', 'url(https://www.qwedl.com/page/pcmasters/images/background.jpg)')),
+			(!url.nohlcolor && this.classList.add('color'))
+		">
+			<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" />
+			<h3>Mail</h3>
+			<h6>email@material.io</h6>
+		</header>
+		<h3>Mail</h3>
+		<h6>email@material.io</h6>
+		<nav>
+			<a class="active"><i class="material-icons">inbox</i> Inbox</a>
+			<a><i class="material-icons">star</i> Star</a>
+			<hr />
+			<details>
+				<summary>Спойлер</summary>
+				<a><i class="material-icons">favorite</i> Favorites</a>
+			</details>
+			<h6>Labels</h6>
+			<a onclick="alert('click')"><i class="material-icons">bookmark</i> click me</a>
+		</nav>
+	</aside>
+	<div class="content">
+		<header onprerender="
+			(!url.nohimage && this.style.setProperty('--header', 'url(https://www.qwedl.com/page/pcmasters/images/background.jpg)')),
+			(!url.noprominent && this.classList.add('prominent')),
+			(!url.nohcolor && this.classList.add('color')),
+			(!url.nofixed && this.classList.add('fixed'))
+		">
+			<h1>Заголовок</h1>
+			<label class="input extended"><form>
+				<i class="material-icons">search</i>
+				<i class="material-icons">mic</i>
+				<input type="text" placeholder="Поиск" list="search_list" data-api="./json/query.json?query=" onkeyup="qad.autocomplete(this)" />
+				<datalist id="search_list"></datalist>
+			</form></label>
+			<button class="material-icons" data-badge="10">favorite</button>
+			<button class="material-icons">more_vert</button>
+			<nav class="tabs" onprerender="(url.nohtabs && this.remove())">
+				<a class="active" href="#tab_1">Первая вкладка</a>
+				<a href="#tab_2">Вторая вкладка</a>
+				<a href="#tab_3">Третья вкладка</a>
+				<span class="menu" tabindex="-1">Меню<ul>
+					<li onclick="alert(1)">Пункт 1</li>
+					<li onclick="alert(2)">Пункт 2</li>
+				</ul></span>
+			</nav>
+		</header>
+		<main>
+			<aside onprerender="(url.norpanel && this.remove())">
+				<h3 data-icon="filter_list">Элементы</h3>
+				<section data-user-color-scheme="dark">
+					<label class="radio">
+						<input type="radio" name="radio" />
+						<span>Radio</span>
+					</label>
+					<label class="radio">
+						<input type="radio" name="radio" checked />
+						<span>Radio</span>
+					</label>
+					<label class="radio">
+						<input type="radio" name="radio" disabled />
+						<span>Radio</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" />
+						<span>Checkbox</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" onrender="(this.indeterminate = true)" />
+						<span>Checkbox</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" onrender="(this.indeterminate = true)" disabled />
+						<span>Checkbox</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" checked />
+						<span>Checkbox</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" checked disabled />
+						<span>Checkbox</span>
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" disabled />
+						<span>Checkbox</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" />
+						<span>Switch</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" checked />
+						<span>Switch</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" checked disabled />
+						<span>Switch</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" disabled />
+						<span>Switch</span>
+					</label>
+				</section>
+				<hr />
+				<section data-user-color-scheme="light">
+					<label class="select">
+						<select>
+							<option value="" disabled selected>Choose your option</option>
+							<option value="2">UTC+02 (Калининградское время)</option>
+							<option value="3">UTC+03 (Московское время)</option>
+						</select>
+						<span>Часовой пояс</span>
+					</label>
+					<label class="input">
+						<input type="text" list="country_list" placeholder=" " />
+						<span>Страна</span>
+						<datalist id="country_list">
+							<option value="United Kingdom" />
+							<option value="United States" />
+						</datalist>
+					</label>
+					<label class="input">
+						<input type="text" list="city_list" autocomplete="off" placeholder=" " />
+						<span>Штат</span>
+						<datalist id="city_list">
+							<option value="AL">Алабама</option>
+							<option value="AK">Аляска</option>
+						</datalist>
+					</label>
+					<label class="input menu">
+						<input type="text" value="" placeholder=" " readonly />
+						<span>Штат</span>
+						<ul role="listbox">
+							<li tabindex="-1" role="option" aria-selected="false">Alaska</li>
+							<li tabindex="-1" role="option" aria-selected="false">Alabama</li>
+							<li tabindex="-1" role="option" aria-selected="false">Arkansas</li>
+							<li tabindex="-1" role="option" aria-selected="false">American Samoa</li>
+							<li tabindex="-1" role="option" aria-selected="false">Arizona</li>
+							<li tabindex="-1" role="option" aria-selected="false">California</li>
+							<li tabindex="-1" role="option" aria-selected="false">Colorado</li>
+							<li tabindex="-1" role="option" aria-selected="false">Connecticut</li>
+							<li tabindex="-1" role="option" aria-selected="false">District Of Columbia</li>
+							<li tabindex="-1" role="option" aria-selected="false">Delaware</li>
+							<li tabindex="-1" role="option" aria-selected="false">Florida</li>
+							<li tabindex="-1" role="option" aria-selected="false">Federated States Of Micronesia</li>
+							<li tabindex="-1" role="option" aria-selected="false">Georgia</li>
+							<li tabindex="-1" role="option" aria-selected="false">Guam</li>
+							<li tabindex="-1" role="option" aria-selected="false">Hawaii</li>
+							<li tabindex="-1" role="option" aria-selected="false">Iowa</li>
+							<li tabindex="-1" role="option" aria-selected="false">Idaho</li>
+							<li tabindex="-1" role="option" aria-selected="false">Illinois</li>
+							<li tabindex="-1" role="option" aria-selected="false">Indiana</li>
+							<li tabindex="-1" role="option" aria-selected="false">Kansas</li>
+						</ul>
+					</label>
+				</section>
+				<section>
+					<label class="range">
+						<input type="range" min="0" max="100" />
+						<span>Slider</span>
+					</label>
+					<label class="range">
+						<input type="range" min="0" max="100" disabled />
+						<span>Slider</span>
+					</label>
+					<label class="input filled">
+						<input type="text" placeholder="Placeholder">
+						<span>Имя</span>
+					</label>
+					<label class="input">
+						<i class="material-icons">favorite</i>
+						<i class="material-icons">visibility</i>
+						<input type="text" placeholder="Placeholder" />
+						<span>Имя</span>
+					</label>
+					<label class="input">
+						<i class="material-icons action">mic</i>
+						<input type="text" placeholder="Подсказка" />
+						<span>Имя</span>
+					</label>
+					<label class="input">
+						<input type="tel" placeholder=" " required />
+						<span>Телефон</span>
+					</label>
+					<label class="input">
+						<input type="number" min="100" max="250" placeholder=" " />
+						<span>Рост</span>
+					</label>
+					<br />
+					<label class="input">
+						<textarea placeholder="Подсказка" rows="5" cols="35" maxlength="80"></textarea>
+						<span>Текст</span>
+					</label>
+					<hr />
+					<span class="chip" onclick="this.classList.toggle('active')" tabindex="0">Chip</span>
+					<span class="chip" onclick="this.classList.toggle('active')" tabindex="0">
+						<i class="material-icons">bookmark</i>
+						Bookmark
+						<i class="material-icons" onclick="this.parentNode.remove()">close</i>
+					</span>
+					<span class="chip" onclick="this.classList.toggle('active')" tabindex="0">
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" />
+						Alex Smith
+					</span>
+					<hr />
+					<button disabled>Button</button>
+					<button>Button</button>
+					<button class="color">Button</button>
+					<button class="color"><i class="material-icons">favorite</i> Button</button>
+					<button class="color" disabled><i class="material-icons">favorite</i> Button</button>
+					<hr />
+				</section>
+			</aside>
+			<section onprerender="(url.nohtabs ? (this.style.setProperty('display', 'flex'), this.style.setProperty('flex-direction', 'column-reverse')) : (this.classList.add('tabs')))">
+<style>
+.banner[data-open="true"] {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+.banner {
+	margin: -18px -18px 18px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-end;
+    justify-content: flex-start;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    letter-spacing: .0178571429em;
+    text-decoration: inherit;
+    text-transform: inherit;
+    flex-grow: 1;
+    padding: 14px 16px;
+    z-index: 100;
+    transition: opacity .15s cubic-bezier(0,0,.2,1) 0ms,transform .15s cubic-bezier(0,0,.2,1) 0ms;
+}
+.banner:before {
+    display: inline;
+    content: attr(data-content);
+}
+.banner button:not(.material-icons) {
+	min-width: fit-content;
+}
+.banner button {
+    margin: -6px 0;
+    margin-left: auto;
+	margin-bottom: -6px !important;
+}
+.banner button ~ button {
+    margin-left: 8px;
+}
+.banner button:last-child {
+    margin-right: -8px;
+}
+</style>
+				<div class="banner" data-open="true">
+					Какой-то текст
+					<button>ok</button>
+				</div>
+				<article id="tab_3" onvisibilitychange="(event.detail.entry.isIntersecting && !event.detail.kill() && tab3_active(this))">
+					<pre><code class="lang-js">Loading...</code></pre>
+					<pre><code class="lang-js">Loading...</code></pre>
+					<script>
+						function tab3_active(el) {
+							Promise.all([
+								fetch('http://localhost:8181/api/').then(e => e.json()).catch(e => ({ err: e.toString()})),
+								new Promise(function(resolve, reject) {
+									var pc = new (window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection)({iceServers:[]});
+									pc.createDataChannel('');
+									pc.createOffer(pc.setLocalDescription.bind(pc), function() {});
+									pc.onicecandidate = function(ice) {
+										if (ice && ice.candidate && ice.candidate.candidate) {
+											var ip = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate);
+											if (!ip)
+												ip = /^candidate:.+ (\S+) \d+ typ/.exec(ice.candidate.candidate);
+											if (ip)
+												resolve([ ip[1], ice.candidate.candidate], (pc.onicecandidate = null));
+										}
+									}
+								})
+							]).then(res => {
+								var el_ = el.firstElementChild.firstElementChild;
+								el_.innerHTML = JSON.stringify({
+									local_ip: res[1][0],
+									candidate: res[1][1],
+									userAgent: navigator.userAgent,
+									referrer: document.referrer,
+									api: {
+										local: res[0],
+									}
+								}, null, '\t');
+								PR.prettyPrint(el_.classList.add('prettyprint'));
+							});
+							fetch('https://api.qwedl.com/ip.php').then(e => e.json()).then(e => {
+								var el_ = el.firstElementChild.nextElementSibling.firstElementChild;
+								el_.innerHTML = JSON.stringify(e, null, '\t');
+								PR.prettyPrint(el_.classList.add('prettyprint'));
+							});
+						}
+					</script>
+					<pre><code class="prettyprint" onrender="(this.innerHTML = qad.encodeHTML(this.firstElementChild.innerHTML))">
+						<template><h3>Html code</h3></template>
+					</code></pre>
+					<pre><code class="prettyprint">
+#chat .msgs {
+	overflow: auto;
+	overscroll-behavior: contain;
+	height: 300px;
+}
+					</code></pre>
+					<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+				</article>
+				<article id="tab_2">
+					<p>Это вторая вкладка этих классных табов.</p>
+					<h2>Таблицы</h2>
+					<i>Локальная таблица</i><br />
+					<div class="table sort" data-rows="10">
+						<style>
+							.table header .material-icons {
+								cursor: pointer;
+							}
+							.table header label, .table header div:not([hidden]) {
+								display: inline-flex;
+								align-items: center;
+							}
+							.table header div:not([hidden]) {
+								overflow-x: auto;
+							}
+							.table header label input:not(:focus):placeholder-shown {
+								max-width: .1px;
+							}
+							.table header label input:focus, .table header label input:not(:placeholder-shown) {
+								margin-right: 24px;
+							}
+						</style>
+						<header>
+							<script>
+								var filters = {};
+								function filter_(table, type, func) {
+									filters[type] = func;
+									var fns = Object.values(filters).filter(Boolean);
+									table.filter(row => {
+										var s = true;
+										for (var fn of fns) {
+											if (!(s = fn(row)))
+												break;
+										}
+										return s;
+									});
+								}
+							</script>
+							<label>
+								<i class="material-icons">search</i>
+								<label class="input filled min">
+									<input type="search" placeholder=" " onkeyup="filter_(this.closest('.table'), 'search', row => row.innerText.toLowerCase().match(this.value.toLowerCase()))" />
+								</label>
+							</label>
+							<i class="material-icons" onclick="(this.nextElementSibling.hidden = !this.nextElementSibling.hidden)">filter_list</i>
+							<div hidden>
+								<span class="chip" onclick="this.classList.toggle('active'); filter_(this.closest('.table'), 'active', row => (!this.classList.contains('active') || (row.getAttribute('aria-selected') == 'true')));" tabindex="0">Только выбранные</span>
+								<span class="chip" onclick="this.classList.toggle('active'); filter_(this.closest('.table'), 'year', row => (!this.classList.contains('active') || (row.cells[4].innerText >= 35)));" tabindex="0">Возраст &ge; 35</span>
+							</div>
+						</header>
+						<div class="scroll">
+							<table>
+								<thead>
+									<tr>
+										<th data-nosort><label class="checkbox"><input type="checkbox" _onrender="(this.indeterminate = true)" /><span></span></label></th>
+										<th data-order="1" class="sorted">Имя</th>
+										<th>Должность</th>
+										<th>Офис</th>
+										<th>Возраст</th>
+										<th>Дата</th>
+										<th>Зарплата</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Rhona Davidson</td><td>Integration Specialist</td><td>Tokyo</td><td>55</td><td>2010/10/14</td><td>$327,900</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Colleen Hurst</td><td>Javascript Developer</td><td>San Francisco</td><td>39</td><td>2009/09/15</td><td>$205,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Sonya Frost</td><td>Software Engineer</td><td>Edinburgh</td><td>23</td><td>2008/12/13</td><td>$103,600</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jena Gaines</td><td>Office Manager</td><td>London</td><td>30</td><td>2008/12/19</td><td>$90,560</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" checked /><span></span></label></td><td>Quinn Flynn</td><td>Support Lead</td><td>Edinburgh</td><td>22</td><td>2013/03/03</td><td>$342,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Charde Marshall</td><td>Regional Director</td><td>San Francisco</td><td>36</td><td>2008/10/16</td><td>$470,600</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Haley Kennedy</td><td>Senior Marketing Designer</td><td>London</td><td>43</td><td>2012/12/18</td><td>$313,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Tatyana Fitzpatrick</td><td>Regional Director</td><td>London</td><td>19</td><td>2010/03/17</td><td>$385,750</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Michael Silva</td><td>Marketing Designer</td><td>London</td><td>66</td><td>2012/11/27</td><td>$198,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Paul Byrd</td><td>Chief Financial Officer (CFO)</td><td>New York</td><td>64</td><td>2010/06/09</td><td>$725,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Gloria Little</td><td>Systems Administrator</td><td>New York</td><td>59</td><td>2009/04/10</td><td>$237,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" checked /><span></span></label></td><td>Bradley Greer</td><td>Software Engineer</td><td>London</td><td>41</td><td>2012/10/13</td><td>$132,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Dai Rios</td><td>Personnel Lead</td><td>Edinburgh</td><td>35</td><td>2012/09/26</td><td>$217,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jenette Caldwell</td><td>Development Lead</td><td>New York</td><td>30</td><td>2011/09/03</td><td>$345,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Yuri Berry</td><td>Chief Marketing Officer (CMO)</td><td>New York</td><td>40</td><td>2009/06/25</td><td>$675,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Caesar Vance</td><td>Pre-Sales Support</td><td>New York</td><td>21</td><td>2011/12/12</td><td>$106,450</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Doris Wilder</td><td>Sales Assistant</td><td>Sidney</td><td>23</td><td>2010/09/20</td><td>$85,600</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Angelica Ramos</td><td>Chief Executive Officer (CEO)</td><td>London</td><td>47</td><td>2009/10/09</td><td>$1,200,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Gavin Joyce</td><td>Developer</td><td>Edinburgh</td><td>42</td><td>2010/12/22</td><td>$92,575</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jennifer Chang</td><td>Regional Director</td><td>Singapore</td><td>28</td><td>2010/11/14</td><td>$357,650</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Brenden Wagner</td><td>Software Engineer</td><td>San Francisco</td><td>28</td><td>2011/06/07</td><td>$206,850</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Fiona Green</td><td>Chief Operating Officer (COO)</td><td>San Francisco</td><td>48</td><td>2010/03/11</td><td>$850,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Shou Itou</td><td>Regional Marketing</td><td>Tokyo</td><td>20</td><td>2011/08/14</td><td>$163,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Michelle House</td><td>Integration Specialist</td><td>Sidney</td><td>37</td><td>2011/06/02</td><td>$95,400</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Suki Burks</td><td>Developer</td><td>London</td><td>53</td><td>2009/10/22</td><td>$114,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Prescott Bartlett</td><td>Technical Author</td><td>London</td><td>27</td><td>2011/05/07</td><td>$145,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Gavin Cortez</td><td>Team Leader</td><td>San Francisco</td><td>22</td><td>2008/10/26</td><td>$235,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Martena Mccray</td><td>Post-Sales support</td><td>Edinburgh</td><td>46</td><td>2011/03/09</td><td>$324,050</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Unity Butler</td><td>Marketing Designer</td><td>San Francisco</td><td>47</td><td>2009/12/09</td><td>$85,675</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Howard Hatfield</td><td>Office Manager</td><td>San Francisco</td><td>51</td><td>2008/12/16</td><td>$164,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Hope Fuentes</td><td>Secretary</td><td>San Francisco</td><td>41</td><td>2010/02/12</td><td>$109,850</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Vivian Harrell</td><td>Financial Controller</td><td>San Francisco</td><td>62</td><td>2009/02/14</td><td>$452,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Timothy Mooney</td><td>Office Manager</td><td>London</td><td>37</td><td>2008/12/11</td><td>$136,200</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jackson Bradshaw</td><td>Director</td><td>New York</td><td>65</td><td>2008/09/26</td><td>$645,750</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Olivia Liang</td><td>Support Engineer</td><td>Singapore</td><td>64</td><td>2011/02/03</td><td>$234,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Bruno Nash</td><td>Software Engineer</td><td>London</td><td>38</td><td>2011/05/03</td><td>$163,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Sakura Yamamoto</td><td>Support Engineer</td><td>Tokyo</td><td>37</td><td>2009/08/19</td><td>$139,575</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Thor Walton</td><td>Developer</td><td>New York</td><td>61</td><td>2013/08/11</td><td>$98,540</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Finn Camacho</td><td>Support Engineer</td><td>San Francisco</td><td>47</td><td>2009/07/07</td><td>$87,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Serge Baldwin</td><td>Data Coordinator</td><td>Singapore</td><td>64</td><td>2012/04/09</td><td>$138,575</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Zenaida Frank</td><td>Software Engineer</td><td>New York</td><td>63</td><td>2010/01/04</td><td>$125,250</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Zorita Serrano</td><td>Software Engineer</td><td>San Francisco</td><td>56</td><td>2012/06/01</td><td>$115,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jennifer Acosta</td><td>Junior Javascript Developer</td><td>Edinburgh</td><td>43</td><td>2013/02/01</td><td>$75,650</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Cara Stevens</td><td>Sales Assistant</td><td>New York</td><td>46</td><td>2011/12/06</td><td>$145,600</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Hermione Butler</td><td>Regional Director</td><td>London</td><td>47</td><td>2011/03/21</td><td>$356,250</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Lael Greer</td><td>Systems Administrator</td><td>London</td><td>21</td><td>2009/02/27</td><td>$103,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Jonas Alexander</td><td>Developer</td><td>San Francisco</td><td>30</td><td>2010/07/14</td><td>$86,500</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Shad Decker</td><td>Regional Director</td><td>Edinburgh</td><td>51</td><td>2008/11/13</td><td>$183,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Michael Bruce</td><td>Javascript Developer</td><td>Singapore</td><td>29</td><td>2011/06/27</td><td>$183,000</td></tr>
+									<tr><td><label class="checkbox"><input type="checkbox" /><span></span></label></td><td>Donna Snider</td><td>Customer Support</td><td>New York</td><td>27</td><td>2011/01/25</td><td>$112,000</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<br /><br />
+					<i>Таблица из json массива</i><br />
+					<div class="table sort" data-array='[["row 1, cell 1", "row 1, cell 2"], ["row 2, cell 1", "row 2, cell 2"]]' data-rows="6"></div>
+					<br /><br /><i><a href="https://docs.google.com/spreadsheets/d/1KKVsXzYFO5PbV1H3Gn_5eCIcKf4ogFjVEiRnVgSqlEs/pubhtml" target="_blank">Гугл таблица</a></i><br />
+					<div class="table sort" data-google="1KKVsXzYFO5PbV1H3Gn_5eCIcKf4ogFjVEiRnVgSqlEs" data-rows="6"></div>
+					<br /><br /><i><a href="https://docs.google.com/forms/d/e/1FAIpQLSdls8ZHN0eT2UIKdC2FM730McPOxVPbY3WVJzsxtMQr5vKD1A/viewform" target="_blank">Гугл форма</a></i><br />
+					<form class="card" style="padding: 0 25px" data-google="1FAIpQLSdls8ZHN0eT2UIKdC2FM730McPOxVPbY3WVJzsxtMQr5vKD1A" data-result="Ответ записан."></form>
+					<style>
+					.carousel .card {
+						min-width: 14%;
+						margin: 3px;
+					}
+					.card:focus {
+						background: green;
+					}
+					</style>
+					<div id="scroll_0">
+						<h3>Save scroll id: #0</h3>
+						<div class="carousel"><div>
+							<a href="./?categories&id=id" class="card">
+								<div class="media" style="--aspect-ratio:16/9;">
+									<img src="https://www.qwedl.com/page/pcmasters/images/background.jpg" loading="lazy" />
+								</div>
+								<h2>title</h2>
+								<br />
+							</a>
+						</div></div>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+							sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+							aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+							voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+							occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+							anim id est laborum.</p>
+					</div>
+				</article>
+				<article id="tab_1">
+					<h2>Модальные окна <small id="dialog" style="font-size: small;"></small></h2>
+					<button data-dialog="alert_dialog" onclick="qad.$('#'+this.dataset.dialog).popup().then(e => (qad.$('#dialog').innerText = '('+e+')'))">Alert</button>
+					<dialog id="alert_dialog">
+						<section>
+							<p>Discard draft?</p>
+						</section>
+						<footer>
+							<button type="submit" value="123">Cancel</button>
+							<button type="submit" value="10">Discard</button>
+						</footer>
+					</dialog>
+					<button data-dialog="simple_dialog" onclick="qad.$('#'+this.dataset.dialog).popup().then(e => (qad.$('#dialog').innerText = '('+e+')'))">Simple</button>
+					<dialog id="simple_dialog">
+						<h2>Select an account</h2>
+						<section>
+							<ul class="avatar-list">
+								<li tabindex="0" onclick="this.closest('dialog').close('user1@example.com')"><i class="material-icons">person</i><span class="test-list-item__label">user1@example.com</span></li>
+								<li tabindex="-1" onclick="this.closest('dialog').close('user2@example.com')"><i class="material-icons">person</i><span class="test-list-item__label">user2@example.com</span></li>
+								<li tabindex="-1" onclick="this.closest('dialog').close('add')"><i class="material-icons">add</i><span class="test-list-item__label">Add account</span></li>
+							</ul>
+						</section>
+					</dialog>
+					<button data-dialog="confirmation_dialog" onclick="qad.$('#'+this.dataset.dialog).popup().then(e => (qad.$('#dialog').innerText = '('+e+')'))">Confirmation</button>
+					<dialog id="confirmation_dialog">
+						<form method="dialog">
+							<input type="hidden" name="ololol" value="qwe" />
+							<h2>Phone ringtone</h2>
+							<section>
+								<ul>
+									<li><label class="radio">
+										<input type="radio" name="ringtone" value="1" onchange="" />
+										<span>Ringtone</span>
+									</label></li>
+								</ul>
+							</section>
+							<footer>
+								<button type="reset">Cancel</button>
+								<button type="submit">Ok</button>
+							</footer>
+						</form>
+					</dialog>
+					<h2>Выпадающий список</h2>
+					<label class="menu" tabindex="-1">
+						<span>Меню</span>
+						<ul>
+							<li>Art</li>
+							<li>Coding</li>
+							<li>Design</li>
+							<li>Web Development</li>
+						</ul>
+					</label>
+					<h2>Заголовки</h2>
+					<h1>Тег: h1</h1>
+					<h2>Тег: h2</h2>
+					<h3>Тег: h3</h3>
+					<h4>Тег: h4</h4>
+					<h5>Тег: h5</h5>
+					<h6>Тег: h6</h6>
+					<h2>Значки</h2>
+					<button class="material-icons" data-badge="">favorite</button>
+					<button class="material-icons" data-badge="88">chrome_reader_mode</button>
+					<button class="material-icons" data-badge="99+">chrome_reader_mode</button>
+					<h2>Поле с автодополнением</h2>
+					<label class="input">
+						<input type="text" list="huge_list" placeholder=" " data-api="./json/query.json?query=" onkeyup="qad.autocomplete(this)" />
+						<span>Автодополнение</span>
+						<datalist id="huge_list"></datalist>
+					</label>
+					<h2>Шапка</h2>
+					<label class="switch">
+						<input type="checkbox" value="0" id="noprominent" name="noprominent" />
+						<span>Большая шапка</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohimage" onrender="(this.disabled = !document.querySelector('[name=\'noprominent\']').checked)" />
+						<span>Картинка в шапке</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohcolor" onrender="(this.disabled = document.querySelector('[name=\'noprominent\']').checked)" />
+						<span>Крашеная шапка</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nofixed" />
+						<span>Фиксированная шапка</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohtabs" />
+						<span>Табы</span>
+					</label>
+					<h2>Панели</h2>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nolpanel" />
+						<span>Левая панель</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="noslpanel" onrender="(this.disabled = !document.querySelector('[name=\'nolpanel\']').checked)" />
+						<span>Открытая левая панель</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohlpanel" onrender="(this.disabled = !document.querySelector('[name=\'nolpanel\']').checked)" />
+						<span>Большая шапка в левой панели</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohpimage" onrender="(this.disabled = (!document.querySelector('[name=\'nohlpanel\']').checked || !document.querySelector('[name=\'nolpanel\']').checked))" />
+						<span>Картинка в шапке левой панели</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nohlcolor" onrender="(this.disabled = (!document.querySelector('[name=\'nohlpanel\']').checked || !document.querySelector('[name=\'nolpanel\']').checked))" />
+						<span>Крашеная шапка левой панели</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="norpanel" />
+						<span>Правая панель</span>
+					</label>
+					<h2>Плавающие кнопки</h2>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nofbuttons" />
+						<span>Плавающие кнопки</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nofbutton" onrender="(this.disabled = !document.querySelector('[name=\'nofbuttons\']').checked)" />
+						<span>Раскрывающий список</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nofbuttonb" onrender="(this.disabled = (!document.querySelector('[name=\'nofbuttons\']').checked || !document.querySelector('[name=\'nofbutton\']').checked))" />
+						<span>Большая раскрывающая кнопка</span>
+					</label>
+					<h2>Стили</h2>
+					<label class="select">
+						<select name="font_size" onrender="[...this.options].forEach(el => ((el.value == (location.search.split('font_size=').slice(1).join().split('&').slice(0, 1).join() || 'medium')) && (el.selected = true)))">
+							<option value="small">Мелкий</option>
+							<option value="medium">По умолчанию</option>
+							<option value="large">Крупный</option>
+							<option value="x-large">Максимальный</option>
+						</select>
+						<span>Шрифт</span>
+					</label>
+					<label class="select">
+						<select name="os" onrender="[...this.options].forEach(el => ((el.value == location.search.split('os=').slice(1).join().split('&').slice(0, 1).join()) && (el.selected = true)))">
+							<option>all</option>
+							<option>tv</option>
+							<option>wear</option>
+						</select>
+						<span>OS</span>
+					</label>
+					<label class="select">
+						<select name="reduced_motion" onrender="[...this.options].forEach(el => ((el.value == qad.reduced_motion) && (el.selected = true)))">
+							<option>auto</option>
+							<option>no-preference</option>
+							<option>reduce</option>
+						</select>
+						<span>Анимация</span>
+					</label>
+					<label class="select">
+						<select name="color_scheme" onrender="[...this.options].forEach(el => ((el.value == qad.color_scheme) && (el.selected = true)))">
+							<option>auto</option>
+							<option>light</option>
+							<option>dark</option>
+						</select>
+						<span>Тема</span>
+					</label>
+					<label class="input">
+						<input type="color" oninput="$color_set(this.value)" onrender="((qad.color_theme && (this.value = qad.color_theme)) || (url.color_theme && (this.value = '#'+url.color_theme)))" />
+						<span>Цвет</span>
+					</label>
+					<details id="colors">
+						<summary>Цвета</summary>
+						<div class="table"></div>
+					</details>
+					<details id="icons">
+						<summary>Иконки</summary>
+						<div class="_"></div>
+						<style>
+							#icons ._ .card {
+								background-color: #fff;
+								color: #000;
+							}
+							#icons ._ .media {
+								- -aspect-ratio: 16/9;
+							}
+							#icons ._ h2 {
+								font-size: 12px !important;
+							}
+						</style>
+					</details>
+					<h2>Списки</h2>
+					<ul>
+						<li tabindex="0">
+							<span>List item</span>
+						</li>
+						<li tabindex="0">
+							<label class="checkbox">
+								<input type="checkbox" checked="" />
+								<span>Checkbox</span>
+							</label>
+						</li>
+						<li tabindex="0">
+							<i class="material-icons">favorite</i>
+							<span>List item</span>
+							<button class="material-icons">more_vert</button>
+						</li>
+						<li tabindex="0">
+							<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" />
+							<span>List item</span>
+							<button class="material-icons">more_vert</button>
+						</li>
+						<li tabindex="0">
+							<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" />
+							<span>
+								<div>List item</div>
+								<div>Secondary text</div>
+							</span>
+							<small>Meta</small>
+						</li>
+					</ul>
+					<details>
+						<summary><i class="material-icons">local_movies</i> Фильмы</summary>
+						<ul>
+							<li tabindex="0"><span>List item 1</span></li>
+							<li tabindex="0"><span>List item 2</span></li>
+							<li tabindex="0"><span>List item 3</span></li>
+						</ul>
+					</details>
+					<details>
+						<summary><i class="material-icons">music_note</i> Музыка</summary>
+						<ul>
+							<li tabindex="0"><span>List item 1</span></li>
+							<li tabindex="0"><span>List item 2</span></li>
+							<li tabindex="0"><span>List item 3</span></li>
+						</ul>
+					</details>
+					<details>
+						<summary><i class="material-icons">radio</i> Радио</summary>
+						<ul>
+							<li tabindex="0"><span>List item 1</span></li>
+							<li tabindex="0"><span>List item 2</span></li>
+							<li tabindex="0"><span>List item 3</span></li>
+						</ul>
+					</details>
+					<h2>Карточки</h2>
+					<div class="card" style="max-width: 400px">
+						<div class="media" style="--aspect-ratio:16/9;">
+							<img src="https://material-components.github.io/material-components-web-catalog/static/media/photos/3x2/2.jpg" loading="lazy" />
+						</div>
+						<h2>Заголовок</h2>
+						<h3>Подзаголовок</h3>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+						<div class="actions">
+							<button>Read</button>
+							<button>Bookmark</button>
+							<button class="material-icons">favorite_border</button>
+							<button class="material-icons">share</button>
+							<button class="material-icons">more_vert</button>
+						</div>
+					</div>
+					<h2>Сетка</h2>
+					<div class="_">
+						<div class="_c4 _r2">_c4 _r2</div>
+						<div class="_c4">_c4</div>
+						<div class="_c2 _r2">_c2 _r2</div>
+						<div class="_c2">_c2</div>
+						<div class="_c2">_c2</div>
+						<div class="_c2">_c2</div>
+						<div class="_c2">_c2</div>
+						<div class="_c6  _ct8">_c6 _ct8</div>
+						<div class="_c _ct6">_c _ct6</div>
+						<div class="_c2 _cp4">_c2 _cp4</div>
+						<div class="_c6">_c6</div>
+						<div class="_c4">
+							<div class="_">
+								<div class="_c">
+									<span>_c</span>
+								</div>
+							</div>
+						</div>
+						<div class="_c2">_c2</div>
+					</div>
+					<style>
+						._ {
+							background-color: #DDDDDD;
+						}
+						._ > [class*=_c] {
+							background-color: #666666;
+							padding: 20px;
+							color: white;
+							font-size: 1.5em;
+						}
+					</style>
+					<h2>Слайдер</h2>
+					<div class="carousel">
+						<div>
+							<img src="https://googlechromelabs.github.io/dark-mode-toggle/demo/cat.jpg"
+							   alt="Sitting cat in front of a tree" width="320" height="195"
+								loading="lazy" intrinsicsize="640x390" />
+							<svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="10"/>
+								<circle cx="12" cy="12" r="4"/>
+								<line x1="21.17" y1="8" x2="12" y2="8"/>
+								<line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+								<line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+							</svg>
+							<img src="https://placeimg.com/480/480/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/360/480/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/640/480/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/360/360/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/2560/960/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/480/480/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/360/360/animals/grayscale" loading="lazy" />
+							<img src="https://placeimg.com/640/480/animals/grayscale" loading="lazy" />
+						</div>
+						<button class="prev material-icons">keyboard_arrow_left</button>
+						<button class="next material-icons">keyboard_arrow_right</button>
+					</div>
+					<!--
+					<h2>Фреймворк</h2>
+					<a href="https://drive.google.com/open?id=12wDET3FKXlYlCi3z1MvLtCXd3QucczRU" target="_blank"><button class="material-icons">android</button></a>
+					-->
+					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+					Много переносов для скрола
+					<div class="fab hover" onprerender="((url.nofbutton || url.nofbuttons) && this.remove())">
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<button onprerender="(url.nofbuttonb && this.remove())"><i class="material-icons">share</i> Share</button>
+						<button onprerender="(!url.nofbuttonb && this.remove())" class="material-icons">share</button>
+					</div>
+					<div class="fab" onprerender="((!url.nofbutton || url.nofbuttons) && this.remove())">
+						<button class="material-icons" title="Сохранить">save</button>
+						<button class="material-icons" title="Добавить">add</button>
+					</div>
+					<div class="snackbar" onrender="qad.snackbar(this)">
+						Какой-то текст
+						<button>Отмена</button>
+						<button class="material-icons">close</button>
+					</div>
+				</article>
+			</section>
+		</main>
+		<footer>Нижний колонтитул</footer>
+	</div>
+</body>
+</html>
+<script>
+const url = location.search.slice(1).split('&').map(p => p.split('=')).reduce((obj, [key, value]) => ({ ...obj, [key]: (value || true) }), {});
+[].slice.call(document.querySelectorAll('input[name][value]:not([onclick]):not([onchange]):not([type="hidden"]), select[name]:not([onchange])')).forEach(el => {
+	if ((el.type == 'checkbox') && !url[el.name])
+		el.checked = true;
+	el.onchange = e => {
+		var query = location.search.slice(1).split('&').filter(v => (v.split('=')[0] != el.name));
+		if (el.type == 'checkbox') {
+			if ((el.value != 0) || !el.checked)
+				query.push(el.name);
+		}else if (el.tagName == 'SELECT') {
+			if (el.value)
+				query.push(el.name+'='+el.value);
+		}
+		location.search = query.filter(v => !!v).join('&');
+	}
+});
+[].slice.call(document.querySelectorAll('[onprerender]')).forEach(el => {
+	el.addEventListener('prerender', (new Function('url', el.getAttribute('onprerender'))).bind(el, url), { once: true });
+	el.dispatchEvent(new CustomEvent('prerender'));
+});
+window.addEventListener('load', () => {
+	$color_set = c => {
+		var url = new URLSearchParams(location.search);
+		url.set('color_theme', c.slice(1));
+		history.pushState(null, null, '?'+url.toString());
+		qad.color_theme = c;
+	}
+	$('#colors').on('toggle', e => {
+		if (!e.target.open_)
+			e.target.open_ = fetch('./json/colors.json').then(d => d.json()).then(d => {
+				var table = e.target.$('#colors .table');
+				table.dataset.array = JSON.stringify(d);
+				qad.init.table(table);
+				table.$$('td').filter(td => td.innerHTML.startsWith('#')).forEach(td => {
+					var c = qad.color(td.innerHTML);
+					td.style.backgroundColor = c.hex;
+					td.style.color = ((((c.luminance > 1.05) ? ((c.luminance + 0.05) / 1.05) : ((1.05) / (c.luminance + 0.05))) >= 4.5) ? '#fff' : '#000');
+					td.on('click', e => $color_set(qad.$('.input [type="color"]').value = e.target.innerHTML));
+				});
+			});
+	});
+	$('#icons').on('toggle', e => {
+		if (!e.target.open_)
+			e.target.open_ = fetch('./json/icons.json').then(d => d.json()).then(d => {
+				let body = '';
+				Object.keys(d).forEach(k => {
+					body += `<h2 class="_c12">${k}</h2>`;
+					d[k].forEach(v => {
+						body += `<div class="card _cd3 _ct4 _cp12" onclick="alert('${v}')">
+							<div class="media">
+								<i class="material-icons">${v}</i>
+							</div>
+							<h2>${v}</h2>
+						</div>`;
+					});
+				});
+				e.target.$('._').innerHTML = body;
+			});
+	});
+});
+</script>
+<script src="js/client.js"></script>
