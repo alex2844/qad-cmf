@@ -1,0 +1,20 @@
+@import 'all';
+@import '_tablet';
+:root {
+	--color-rgb: 255, 255, 255;
+	--color: #fff;
+	--background: #202124;
+	--border: #3c4043;
+	--aside: #333;
+	--error: #CF6679;
+	--scheme: 'dark';
+}
+.card, .active, details[open] > summary {
+	--theme: var(--theme-light, rgb(var(--theme-rgb)));
+}
+img:not([src*=".svg"]) {
+	filter: grayscale(15%);
+}
+img[src*=".svg"] {
+	filter: invert(100%);
+}

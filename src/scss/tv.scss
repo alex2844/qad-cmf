@@ -1,0 +1,14 @@
+@import 'all';
+@import '_tv';
+[data-user-mode="tv"] {
+	--color-rgb: 255, 255, 255;
+    --color: #fff;
+    --background: #202124;
+    --border: #3c4043;
+	--aside: #1b1c1e;
+    --error: #CF6679;
+	--scheme: 'dark';
+}
+[data-user-mode="tv"] .card {
+	--aside: #37474f;
+}

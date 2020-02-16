@@ -1,0 +1,40 @@
+@media (prefers-color-scheme:dark) {
+	:root:not([data-user-mode]):not([data-user-color-scheme]) {
+		--color-rgb: 255, 255, 255;
+        --color: #fff;
+        --background: #202124;
+        --border: #3c4043;
+        --aside: #333;
+		--error: #CF6679;
+        --scheme: 'dark';
+    }
+	html:not([data-user-mode]):not([data-user-color-scheme]) .card,
+	html:not([data-user-mode]):not([data-user-color-scheme]) .active,
+	html:not([data-user-mode]):not([data-user-color-scheme]) details[open] > summary {
+		--theme: var(--theme-light, rgb(var(--theme-rgb)));
+	}
+    html:not([data-user-mode]):not([data-user-color-scheme]) img:not([src*=".svg"]) {
+        filter: grayscale(15%);
+    }
+    html:not([data-user-mode]):not([data-user-color-scheme]) img[src*=".svg"] {
+        filter: invert(100%);
+    }
+}
+[data-user-color-scheme="dark"] {
+	--color-rgb: 255, 255, 255;
+    --color: #fff;
+    --background: #202124;
+    --border: #3c4043;
+    --aside: #333;
+	--error: #CF6679;
+    --scheme: 'dark';
+}
+[data-user-color-scheme="dark"] .card, [data-user-color-scheme="dark"] .active, [data-user-color-scheme="dark"] details[open] > summary {
+	--theme: var(--theme-light, rgb(var(--theme-rgb)));
+}
+[data-user-color-scheme="dark"] img:not([src*=".svg"]) {
+    filter: grayscale(15%);
+}
+[data-user-color-scheme="dark"] img[src*=".svg"] {
+    filter: invert(100%);
+}
