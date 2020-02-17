@@ -1,11 +1,11 @@
-var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 (function() {
+	var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 	window.qad = new (class Qad {
 		constructor(...args) {
 			this.libs();
 			let self = this;
 			let scheme;
-			if (scheme = localStorage.getItem('color_scheme'))
+			if (scheme = window.localStorage.getItem('color_scheme'))
 				document.documentElement.setAttribute('data-user-color-scheme', scheme);
 			if (!('$' in window) && !('$$' in window)) {
 				window.$ = self.$.bind(self);
@@ -40,7 +40,7 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 				this[(text ? 'innerText' : 'innerHTML')] = string;
 				return this;
 			}
-			window[((this.libs_ && (this.libs_.indexOf('HTMLDialogElement') > -1)) ? 'Element' : 'HTMLDialogElement')].prototype.popup = function popup() {
+			window[((this.libs_ && (this.libs_.indexOf('HTMLDialogElement') > -1)) ? 'Element' : 'HTMLDialogElement')].prototype.popup = function(e) {
 				let url = location.href,
 					y = window.scrollY;
 				let events = {
@@ -54,15 +54,15 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 				history.pushState(null, null, '#dialog_'+this.id);
 				// location.hash = 'dialog_'+this.id;
 				document.body.dataset.modal = true;
-				if (typeof(this.showModal) == 'undefined')
+				if ((typeof(this.showModal) == 'undefined') && ('dialogPolyfill' in window))
 					dialogPolyfill.registerDialog(this);
 				this.showModal();
 				document.documentElement.scrollTop = y;
 				if (typeof(this.form) == 'undefined') {
 					let se = this.$('section');
 					this.form = this.$('form[method="dialog"]');
-					if (TV) {
-						self.controller_.focus = event.target;
+					if (TV && ('SpatialNavigation' in window)) {
+						self.controller_.focus = e.target;
 						[ self.controller_.aside, self.controller_.body ].forEach(c => SpatialNavigation.disable(c));
 					}
 					if ((!TV && se && (se.scrollHeight != se.offsetHeight)) || (TV && !this.form))
@@ -78,9 +78,9 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 					}));
 				}
 				return new Promise((resolve) => this.on('close', e => {
-					if (TV) {
+					if (TV && ('SpatialNavigation' in window)) {
 						[ self.controller_.aside, self.controller_.body ].forEach(c => SpatialNavigation.enable(c));
-						if (self.controller_.focus)
+						if (self.controller_.focus && ('SpatialNavigation' in window))
 							SpatialNavigation.focus(self.controller_.focus);
 						this.returnValue = ((this.form && (e.target.type != 'reset')) ? new URLSearchParams(new FormData(this.form)).toString() : '');
 					}
@@ -141,7 +141,7 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 				color_scheme: {
 					get: () => (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi,'')),
 					set: (val) => {
-						localStorage.setItem('color_scheme', val);
+						window.localStorage.setItem('color_scheme', val);
 						if (val == 'auto')
 							document.documentElement.removeAttribute('data-user-color-scheme');
 						else
@@ -512,32 +512,39 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 						ext = header.$('.extended input');
 					if (ext) {
 						let mic = ext.previousElementSibling;
-						if (TV) {
-							let aside;
-							ext.parentNode.firstElementChild.on('click', () => ((header.dataset.extended = 'focus') && (aside = this.$('aside.tv')) && (aside.hidden = true)));
-						}else
+						if (TV)
+							ext.parentNode.firstElementChild.on('click', () => {
+								let aside;
+								header.dataset.extended = 'focus';
+								if (aside = this.$('aside.tv'))
+									aside.hidden = true;
+							});
+						else
 							ext.on('focus', () => (header.dataset.extended = 'focus')).on('blur', e => {
 								setTimeout(() => (!mic.dataset.focus && (header.dataset.extended = 'blur')));
 							});
 						if (mic && (mic.innerText.trim() == 'mic'))
-							mic.on('click', () => ((mic.dataset.focus = true) && (Object.assign(new webkitSpeechRecognition(), {
-								lang: navigator.language,
-								onresult: event => {
-									delete mic.dataset.focus;
-									let s = ext.form && ext.form.$('[type="submit"]');
-									ext.value = event.results[0][0].transcript;
-									if (s)
-										s.click();
-								},
-								onstart: () => {
-									if (TV) {
-										mic.style.setProperty('background-color', '#ff4343', 'important');
-										mic.style.setProperty('color', '#eee', 'important');
-									}else
-										mic.style.setProperty('color', '#F44336', 'important');
-								},
-								onend: () => (header.dataset && (header.dataset.extended = 'focus') && mic.style.removeProperty('color') && mic.style.removeProperty('background-color'))
-							})).start()));
+							mic.on('click', () => {
+								mic.dataset.focus = true;
+								Object.assign(new webkitSpeechRecognition(), {
+									lang: navigator.language,
+									onresult: event => {
+										delete mic.dataset.focus;
+										let s = ext.form && ext.form.$('[type="submit"]');
+										ext.value = event.results[0][0].transcript;
+										if (s)
+											s.click();
+									},
+									onstart: () => {
+										if (TV) {
+											mic.style.setProperty('background-color', '#ff4343', 'important');
+											mic.style.setProperty('color', '#eee', 'important');
+										}else
+											mic.style.setProperty('color', '#F44336', 'important');
+									},
+									onend: () => (header.dataset && (header.dataset.extended = 'focus') && mic.style.removeProperty('color') && mic.style.removeProperty('background-color'))
+								}).start();
+							});
 					}
 					let cfu = () => {
 						let hoff = cbt < 0,
@@ -890,7 +897,7 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 						table_ = table.$('table'),
 						footer = table.$('footer');
 					if (!table_) {
-						table.append($('<div class="scroll"><table><thead></thead><tbody></tbody></table></div>').firstElementChild);
+						table.append(this.$('<div class="scroll"><table><thead></thead><tbody></tbody></table></div>').firstElementChild);
 						table_ = table.$('table');
 					}
 					if (table.dataset.array)
@@ -964,15 +971,15 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 								trs[i].style.display = trs[i]['data-display'];
 						}
 						if (!footer) {
-							footer = $('<footer>').firstElementChild;
-							let fs_ = $('<label><span>Строк на странице:</span></label>').firstElementChild;
-							fs_.append($('<select>'+[10, 20, 30, 40, 50, -1].concat([rows]).filter((v, pos, self) => (self.indexOf(v) == pos)).sort((a, b) => (a - b)).map(v => {
+							footer = this.$('<footer>').firstElementChild;
+							let fs_ = this.$('<label><span>Строк на странице:</span></label>').firstElementChild;
+							fs_.append(this.$('<select>'+[10, 20, 30, 40, 50, -1].concat([rows]).filter((v, pos, self) => (self.indexOf(v) == pos)).sort((a, b) => (a - b)).map(v => {
 								return '<option value="'+v+'" '+((v == rows) ? 'selected' : '')+'>'+((v == -1) ? 'Все' : v)+'</option>';
 							})+'</select>').firstElementChild.on('change', e => paginator(table.dataset.rows = e.target.value)));
 							footer.append(fs_);
-							footer.append((ft = $('<span>').firstElementChild));
-							footer.append((fp = $('<a tabindex="0"><i class="material-icons">chevron_left</i></a>').firstElementChild.on('click', () => paginator(--table.dataset.page))));
-							footer.append((fn = $('<a tabindex="0"><i class="material-icons">chevron_right</i></a>').firstElementChild.on('click', () => paginator(++table.dataset.page))));
+							footer.append((ft = this.$('<span>').firstElementChild));
+							footer.append((fp = this.$('<a tabindex="0"><i class="material-icons">chevron_left</i></a>').firstElementChild.on('click', () => paginator(--table.dataset.page))));
+							footer.append((fn = this.$('<a tabindex="0"><i class="material-icons">chevron_right</i></a>').firstElementChild.on('click', () => paginator(++table.dataset.page))));
 							table.append(footer);
 						}
 						ft.innerText = ((rows == -1) ? '' : ((page - 1) * rows + 1)+' - '+(page * rows)+' из '+trs.length);
@@ -1072,13 +1079,13 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 					if (el.closest('nav.tabs'))
 						el.on('focus', () => {
 							if (!el.dataset.menu) {
-								let s = $('<span class="menu" tabindex="-1"></span>').firstElementChild;
+								let s = this.$('<span class="menu" tabindex="-1"></span>').firstElementChild;
 								s.dataset.link_menu = el.dataset.menu = (new Date()).getTime();
 								s.append(el.$('ul'));
-								$('body').append(s);
+								this.$('body').append(s);
 							}
 							let p = el.getBoundingClientRect(),
-								el_ = $('.menu[data-link_menu="'+el.dataset.menu+'"]');
+								el_ = this.$('.menu[data-link_menu="'+el.dataset.menu+'"]');
 							el_.style.left = p.left+'px';
 							el_.style.right = p.right+'px';
 							el_.style.top = p.top+'px';
@@ -1143,5 +1150,5 @@ var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 				});
 		}
 	})();
-	console.log(qad);
+	console.log(window.qad);
 })();

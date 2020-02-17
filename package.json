@@ -5,9 +5,13 @@
 	"scripts": {
 		"make": "sudo mount -i -o remount,exec $(findmnt -rno TARGET --target ./) && gulp"
 	},
+	"dependencies": {},
 	"devDependencies": {
 		"browser-sync": "^2.26.7",
+		"google-closure-compiler": "^20200204.0.0",
 		"gulp": "^4.0.2",
+		"gulp-clean-css": "^4.2.0",
+		"gulp-plumber": "^1.2.1",
 		"gulp-sass": "^4.0.2"
 	},
 	"repository": "https://github.com/alex2844/qad-cmf.git",

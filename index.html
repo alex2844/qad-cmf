@@ -10,11 +10,12 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="description" content="" />
-	<meta name="color-scheme" content="dark light" />
+	<meta name="author" content="Alex Smith, https://me.qwedl.com/"/>
+	<!-- meta name="color-scheme" content="dark light" / -->
 	<title>Qad v2</title>
 	<style>body,html.spinner body{visibility:hidden}html:after,.spinner:after{content:'';border-radius:50%;border:4px transparent solid;border-top-color:var(--theme,#3F51B5);animation:spinner 1s infinite;position:fixed}html:after{height:40px;width:40px;left:50%;top:50%;margin:-20px 0 0 -20px}@keyframes spinner{to{transform:rotate(360deg)}}</style>
-	<link rel="preload" href="css/full.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-	<noscript><link rel="stylesheet" href="css/full.css" /></noscript>
+	<link rel="preload" href="dist/css/full.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+	<noscript><link rel="stylesheet" href="dist/css/full.css" /></noscript>
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
 	<link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 	<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" /></noscript>
@@ -65,8 +66,9 @@
 				<a href="#tab_2">Вторая вкладка</a>
 				<a href="#tab_3">Третья вкладка</a>
 				<span class="menu" tabindex="-1">Меню<ul>
-					<li onclick="alert(1)">Пункт 1</li>
-					<li onclick="alert(2)">Пункт 2</li>
+					<a href="#tab_1"><li>Таб 1</li></a>
+					<a href="#tab_2"><li>Таб 2</li></a>
+					<a href="#tab_3"><li>Таб 3</li></a>
 				</ul></span>
 			</nav>
 		</header>
@@ -903,4 +905,4 @@ window.addEventListener('load', () => {
 	});
 });
 </script>
-<script src="js/client.js"></script>
+<script src="dist/js/client.js"></script>

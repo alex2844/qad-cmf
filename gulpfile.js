@@ -3,57 +3,19 @@ const
 	path = require('path'),
 	https = require('https');
 	gulp = require('gulp'),
+	plumber = require('gulp-plumber'),
 	sass = require('gulp-sass'),
-	browserSync = require('browser-sync'); // require('browser-sync').create();
-/*
-const cssnano = require('gulp-cssnano');
-const plumber = require('gulp-plumber');
-const gulp = require('gulp');
-const autoprefixer = require('gulp-autoprefixer');
-const cssnano = require('gulp-cssnano');
-const plumber = require('gulp-plumber');
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglifyjs');
-import rename from 'gulp-rename';
-import cleanCSS from 'gulp-clean-css';
-*/
+	cleanCSS = require('gulp-clean-css'),
+	closureCompiler = require('google-closure-compiler').gulp(),
+	browserSync = require('browser-sync');
+
 get = (url, cb) => https.get(url, d => {
 	let body = '';
 	d.on('data', dd => (body += dd)).on('end', () => cb(body));
 });
-gulp.task('css', function(done) {
-    gulp.src("src/scss/**/*.scss")
-		// .pipe(plumber())
-		.pipe(sass())
-		// .pipe(cssnano())
-		// .pipe(cleanCSS())
-		// .pipe(rename({ basename: 'main', suffix: '.min' }))
-        .pipe(gulp.dest("dist/css"))
-        .pipe(browserSync.stream()); //.pipe(browserSync.reload({ stream: true }))
-    done();
-});
-gulp.task('js', function(done) {
-    gulp.src("src/js/**/*.js")
-		// .pipe(uglify())
-		// .pipe(concat('main.min.js'))
-        .pipe(gulp.dest("dist/js"))
-        .pipe(browserSync.stream());
-    done();
-});
-gulp.task('html', function(done) {
-    browserSync.init({
-        server: "dist/"
-    });
-    gulp.watch("src/scss/**/*.scss", gulp.series('css'));
-    gulp.watch("src/js/**/*.js", gulp.series('js'));
-    gulp.watch("dist/*.html").on('change', () => {
-      browserSync.reload();
-      done();
-    });
-    done();
-});
-gulp.task('colors', function(done) {
-	let fn = path.join(__dirname, '/dist/json/colors.json');
+gulp.task('colors', done => {
+	let fn = path.join(__dirname, '/dist/json/colors.json'),
+		dn = path.dirname(fn);
 	if (fs.existsSync(fn))
 		done();
 	else
@@ -61,6 +23,8 @@ gulp.task('colors', function(done) {
 			get('https://material.io/resources/color/scripts/'+body.split('src="scripts/')[2].split('"')[0], body => {
 				let r = JSON.parse(('{shades:'+body.split('={shades:')[1].split(';')[0]).replace(/(shades|palettes|name|hexes)/g, '"$1"')),
 					ar = [].concat([[''].concat(r.shades)], r.palettes.map(v => [v.name].concat(v.hexes)));
+				if (!fs.existsSync(dn))
+					fs.mkdirSync(dn, { recursive: true });
 				fs.writeFile(fn, JSON.stringify(ar), err => {
 					if (err)
 						return console.log(err);
@@ -69,8 +33,9 @@ gulp.task('colors', function(done) {
 			});
 		});
 });
-gulp.task('icons', function(done) {
-	let fn = path.join(__dirname, '/dist/json/icons.json');
+gulp.task('icons', done => {
+	let fn = path.join(__dirname, '/dist/json/icons.json'),
+		dn = path.dirname(fn);
 	if (fs.existsSync(fn))
 		done();
 	else
@@ -81,6 +46,8 @@ gulp.task('icons', function(done) {
 					icons[icon.categories[0]] = [];
 				icons[icon.categories[0]].push(icon.name);
 			});
+			if (!fs.existsSync(dn))
+				fs.mkdirSync(dn, { recursive: true });
 			fs.writeFile(fn, JSON.stringify(icons), err => {
 				if (err)
 					return console.log(err);
@@ -88,4 +55,34 @@ gulp.task('icons', function(done) {
 			});
 		});
 });
-gulp.task('default', gulp.series('colors', 'icons', 'css', 'js', 'html' ));
+gulp.task('css', done => {
+	gulp.src('src/scss/**/*.scss')
+		.pipe(plumber())
+		.pipe(sass())
+		.pipe(cleanCSS())
+		.pipe(gulp.dest('dist/css'))
+		.on('end', () => done())
+		.pipe(browserSync.stream());
+});
+gulp.task('js', done => {
+	let task = gulp.src([
+		'src/js/client.js'
+	]).pipe(plumber());
+	if (typeof(closureCompiler) != 'undefined')
+		task = task.pipe(closureCompiler({
+			compilation_level: 'SIMPLE',
+			js_output_file: 'client.js'
+		}, { platform: ['native', 'java', 'javascript'] }));
+	task.pipe(gulp.dest('dist/js')).on('end', () => done()).pipe(browserSync.stream());
+});
+gulp.task('html', done => {
+	browserSync.init({ server: './' });
+	gulp.watch('src/scss/**/*.scss', gulp.series('css'));
+	gulp.watch('src/js/**/*.js', gulp.series('js'));
+	gulp.watch('*.html').on('change', () => {
+		browserSync.reload();
+		done();
+	});
+	done();
+});
+gulp.task('default', gulp.series('colors', 'icons', 'css', 'js', 'html'));
