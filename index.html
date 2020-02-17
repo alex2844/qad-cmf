@@ -56,7 +56,7 @@
 			<label class="input extended"><form>
 				<i class="material-icons">search</i>
 				<i class="material-icons">mic</i>
-				<input type="text" placeholder="Поиск" list="search_list" data-api="./json/query.json?query=" onkeyup="qad.autocomplete(this)" />
+				<input type="text" placeholder="Поиск" list="search_list" data-api="./dist/json/query.json?query=" onkeyup="qad.autocomplete(this)" />
 				<datalist id="search_list"></datalist>
 			</form></label>
 			<button class="material-icons" data-badge="10">favorite</button>
@@ -561,7 +561,7 @@
 					<button class="material-icons" data-badge="99+">chrome_reader_mode</button>
 					<h2>Поле с автодополнением</h2>
 					<label class="input">
-						<input type="text" list="huge_list" placeholder=" " data-api="./json/query.json?query=" onkeyup="qad.autocomplete(this)" />
+						<input type="text" list="huge_list" placeholder=" " data-api="./dist/json/query.json?query=" onkeyup="qad.autocomplete(this)" />
 						<span>Автодополнение</span>
 						<datalist id="huge_list"></datalist>
 					</label>
@@ -873,7 +873,7 @@ window.addEventListener('load', () => {
 	}
 	$('#colors').on('toggle', e => {
 		if (!e.target.open_)
-			e.target.open_ = fetch('./json/colors.json').then(d => d.json()).then(d => {
+			e.target.open_ = fetch('./dist/json/colors.json').then(d => d.json()).then(d => {
 				var table = e.target.$('#colors .table');
 				table.dataset.array = JSON.stringify(d);
 				qad.init.table(table);
@@ -887,7 +887,7 @@ window.addEventListener('load', () => {
 	});
 	$('#icons').on('toggle', e => {
 		if (!e.target.open_)
-			e.target.open_ = fetch('./json/icons.json').then(d => d.json()).then(d => {
+			e.target.open_ = fetch('./dist/json/icons.json').then(d => d.json()).then(d => {
 				let body = '';
 				Object.keys(d).forEach(k => {
 					body += `<h2 class="_c12">${k}</h2>`;

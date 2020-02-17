@@ -236,7 +236,7 @@
 				t = [],
 				ar = [],
 				lb = [];
-			let r2h = r => '#'+((1 << 24)+(parseInt(r[0]) << 16)+(parseInt(r[1]) << 8)+parseInt(r[2])).toString(16).slice(1);
+			let r2h = r => '#'+((1 << 24)+((+r[0]) << 16)+((+r[1]) << 8)+(+r[2])).toString(16).slice(1);
 			let rlr = v => {
 				v = v.map(v => (((v /= 255) <= 0.04045) ? (v / 12.92) : Math.pow((v + 0.055) / 1.055, 2.4)));
 				v = [
@@ -395,9 +395,7 @@
 							document.body.prepend(aside);
 						}
 						setTimeout(() => {
-							let script = document.createElement('script');
-							script.src = 'https://alex2844.github.io/js-spatial-navigation/spatial_navigation.min.js';
-							script.on('load', () => {
+							let sn = () => {
 								window.on('sn:willunfocus', e => {
 									let card;
 									if ((card = e.target.closest('.info')) && e.target.parentNode.classList.contains('tabs') && e.detail.nextElement && e.detail.nextElement.closest('.info') && !e.detail.nextElement.parentNode.classList.contains('tabs'))
@@ -454,8 +452,15 @@
 									{ selector: 'a, [tabindex], button' },
 									{ selector: 'dialog li', restrict: 'self-only' }
 								]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
-							});
-							document.body.append(script);
+							};
+							if ('SpatialNavigation' in window)
+								sn();
+							else{
+								let script = document.createElement('script');
+								script.src = 'https://alex2844.github.io/js-spatial-navigation/spatial_navigation.min.js';
+								script.on('load', () => sn());
+								document.body.append(script);
+							}
 						}, 700);
 					}
 				},
@@ -585,8 +590,8 @@
 										cbt = 0;
 									if (cfu()) {
 										if (!h1.dataset.top)
-											h1.dataset.top = parseInt(getComputedStyle(h1).marginTop);
-										let offset = cbt + parseInt(h1.dataset.top);
+											h1.dataset.top = +getComputedStyle(h1).marginTop;
+										let offset = cbt + (+h1.dataset.top);
 										if (Math.abs(offset) >= h)
 											offset = -128;
 										h1.style['margin-top'] = ((offset < 0) ? 0 : offset)+'px';
@@ -953,8 +958,8 @@
 						if (!table.dataset.page)
 							table.dataset.page = 1;
 						let pages,
-							page = parseInt(table.dataset.page),
-							rows = parseInt(table.dataset.rows),
+							page = +table.dataset.page,
+							rows = +table.dataset.rows,
 							trs = [].slice.call(table_.tBodies[0].children);
 						if ((pages = (((rows = (rows || 10)) > 0) ? Math.ceil(trs.length / rows) : 1)) < 1)
 							pages = 1;

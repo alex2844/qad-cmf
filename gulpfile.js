@@ -76,6 +76,18 @@ gulp.task('js', done => {
 	task.pipe(gulp.dest('dist/js')).on('end', () => done()).pipe(browserSync.stream());
 });
 gulp.task('html', done => {
+	let fn = path.join(__dirname, '/dist/json/query.json');
+	if (!fs.existsSync(fn))
+		fs.writeFile(fn, JSON.stringify([
+			{"title":"Neo","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Neo"},
+			{"title":"Olayinka","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Olayinka"},
+			{"title":"Jonathan","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Jonathan"},
+			{"title":"Mezie","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Mezie"},
+			{"title":"Oreoluwa","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Oreoluwa"},
+			{"title":"Jordan","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Jordan"},
+			{"title":"Michelle","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Michelle"},
+			{"title":"Jessica","img":"https://st.kp.yandex.net/images/film_iphone/iphone360_462851.jpg","value":"Jessica"}
+		]), err => {});
 	browserSync.init({ server: './' });
 	gulp.watch('src/scss/**/*.scss', gulp.series('css'));
 	gulp.watch('src/js/**/*.js', gulp.series('js'));
