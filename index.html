@@ -9,10 +9,10 @@
 	<!-- link rel="manifest" href="./package.json" / -->
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="description" content="" />
+	<meta name="description" content="QAD CMF Demo" />
 	<meta name="author" content="Alex Smith, https://me.qwedl.com/"/>
 	<!-- meta name="color-scheme" content="dark light" / -->
-	<title>Qad v2</title>
+	<title>QAD CMF Demo</title>
 	<style>body,html.spinner body{visibility:hidden}html:after,.spinner:after{content:'';border-radius:50%;border:4px transparent solid;border-top-color:var(--theme,#3F51B5);animation:spinner 1s infinite;position:fixed}html:after{height:40px;width:40px;left:50%;top:50%;margin:-20px 0 0 -20px}@keyframes spinner{to{transform:rotate(360deg)}}</style>
 	<link rel="preload" href="dist/css/full.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 	<noscript><link rel="stylesheet" href="dist/css/full.css" /></noscript>
@@ -53,12 +53,16 @@
 			(!url.nofixed && this.classList.add('fixed'))
 		">
 			<h1>Заголовок</h1>
-			<label class="input extended"><form>
-				<i class="material-icons">search</i>
-				<i class="material-icons">mic</i>
-				<input type="text" placeholder="Поиск" list="search_list" data-api="./dist/json/query.json?query=" onkeyup="qad.autocomplete(this)" />
-				<datalist id="search_list"></datalist>
-			</form></label>
+			<label class="input extended">
+				<span>Поиск</span>
+				<form>
+					<i class="material-icons" tabindex="-2">search</i>
+					<i class="material-icons">mic</i>
+					<input type="text" placeholder="Поиск" list="search_list" data-api="./dist/json/query.json?query=" onkeyup="qad.autocomplete(this)" />
+					<input type="submit" />
+					<datalist id="search_list"></datalist>
+				</form>
+			</label>
 			<button class="material-icons" data-badge="10">favorite</button>
 			<button class="material-icons">more_vert</button>
 			<nav class="tabs" onprerender="(url.nohtabs && this.remove())">
@@ -69,6 +73,7 @@
 					<a href="#tab_1"><li>Таб 1</li></a>
 					<a href="#tab_2"><li>Таб 2</li></a>
 					<a href="#tab_3"><li>Таб 3</li></a>
+					<a href="#tab_4"><li>Таб 4</li></a>
 				</ul></span>
 			</nav>
 		</header>
@@ -288,6 +293,28 @@
 					Какой-то текст
 					<button>ok</button>
 				</div>
+				<article id="tab_4" onvisibilitychange="(event.detail.entry.isIntersecting && !event.detail.kill() && tab4_active(this))">
+					<script>
+						function tab4_active(el) {
+							var i = document.createElement('iframe'),
+								s = document.createElement('script');
+							i.style.width = '100%';
+							i.setAttribute('frameborder', 0);
+							s.src = 'https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js';
+							$('#tab_4').append(i);
+							$('#tab_4').append(s);
+							var get = () => fetch('./README.md').then(e => e.text()).then(e => {
+								var converter = new showdown.Converter();
+								converter.setFlavor('github');
+								i.contentDocument.body.innerHTML = converter.makeHtml(e);
+								i.style.height = (i.contentWindow.document.body.scrollHeight + 10)+'px';
+							});
+							s.on('load', () => get());
+							if ('___browserSync___' in window)
+								___browserSync___.socket.on('md:edit', e => (console.log('Reload: '+e.file), get()));
+						}
+					</script>
+				</article>
 				<article id="tab_3" onvisibilitychange="(event.detail.entry.isIntersecting && !event.detail.kill() && tab3_active(this))">
 					<pre><code class="lang-js">Loading...</code></pre>
 					<pre><code class="lang-js">Loading...</code></pre>
@@ -845,6 +872,7 @@
 </html>
 <script>
 const url = location.search.slice(1).split('&').map(p => p.split('=')).reduce((obj, [key, value]) => ({ ...obj, [key]: (value || true) }), {});
+[].slice.call(document.querySelectorAll('img:not([alt])')).forEach(el => (el.alt = 'qad-cmf'));
 [].slice.call(document.querySelectorAll('input[name][value]:not([onclick]):not([onchange]):not([type="hidden"]), select[name]:not([onchange])')).forEach(el => {
 	if ((el.type == 'checkbox') && !url[el.name])
 		el.checked = true;

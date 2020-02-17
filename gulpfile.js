@@ -7,7 +7,7 @@ const
 	sass = require('gulp-sass'),
 	cleanCSS = require('gulp-clean-css'),
 	closureCompiler = require('google-closure-compiler').gulp(),
-	browserSync = require('browser-sync');
+	browserSync = require('browser-sync').create();
 
 get = (url, cb) => https.get(url, d => {
 	let body = '';
@@ -95,6 +95,7 @@ gulp.task('html', done => {
 		browserSync.reload();
 		done();
 	});
+	browserSync.watch('*.md').on('change', file => browserSync.sockets.emit('md:edit', { file }));
 	done();
 });
 gulp.task('default', gulp.series('colors', 'icons', 'css', 'js', 'html'));
