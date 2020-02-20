@@ -290,8 +290,10 @@ ul li, summary {
 	align-items: center;
 	justify-content: flex-start;
 	padding: 0 16px;
-	overflow: hidden;
 	min-height: 48px;
+}
+ul:not(.submenu) li, summary {
+	overflow: hidden;
 }
 ul li:hover, ul li:focus, summary:hover, ul li[aria-selected="true"] {
 	background: rgba(var(--color-rgb), .04);

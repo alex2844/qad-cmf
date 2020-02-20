@@ -1091,6 +1091,7 @@
 							}
 							let p = el.getBoundingClientRect(),
 								el_ = this.$('.menu[data-link_menu="'+el.dataset.menu+'"]');
+							el_.dataset.layout = (((window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
 							el_.style.left = p.left+'px';
 							el_.style.right = p.right+'px';
 							el_.style.top = p.top+'px';

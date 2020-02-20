@@ -69,12 +69,40 @@
 				<a class="active" href="#tab_1">Первая вкладка</a>
 				<a href="#tab_2">Вторая вкладка</a>
 				<a href="#tab_3">Третья вкладка</a>
-				<span class="menu" tabindex="-1">Меню<ul>
-					<a href="#tab_1"><li>Таб 1</li></a>
-					<a href="#tab_2"><li>Таб 2</li></a>
-					<a href="#tab_3"><li>Таб 3</li></a>
-					<a href="#tab_4"><li>Таб 4</li></a>
-				</ul></span>
+				<span class="menu" tabindex="-1">
+					Меню
+					<ul class="submenu">
+						<li>
+							Вложенность
+							<ul class="submenu">
+								<li><a href="">Пункт</a></li>
+								<li>
+									Еще вложенность
+									<ul class="submenu">
+										<li>
+											Еще вложенность
+											<ul class="submenu">
+												<a href="?t1#tab_1"><li>Таб 1</li></a>
+												<a href="?t2#tab_2"><li>Таб 2</li></a>
+												<a href="?t3#tab_3"><li>Таб 3</li></a>
+												<a href="?t4#tab_4"><li>Таб 4</li></a>
+											</ul>
+										</li>
+										<a href="?t1#tab_1"><li>Таб 1</li></a>
+										<a href="?t2#tab_2"><li>Таб 2</li></a>
+										<a href="?t3#tab_3"><li>Таб 3</li></a>
+										<a href="?t4#tab_4"><li>Таб 4</li></a>
+									</ul>
+								</li>
+								<li><a href="">Пункт</a></li>
+							</ul>
+						</li>
+						<a href="#tab_1"><li>Таб 1</li></a>
+						<a href="#tab_2"><li>Таб 2</li></a>
+						<a href="#tab_3"><li>Таб 3</li></a>
+						<a href="#tab_4"><li>Таб 4</li></a>
+					</ul>
+				</span>
 			</nav>
 		</header>
 		<main>
