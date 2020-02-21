@@ -1089,8 +1089,16 @@
 								s.append(el.$('ul'));
 								this.$('body').append(s);
 							}
-							let p = el.getBoundingClientRect(),
+							let p = JSON.parse(JSON.stringify(el.getBoundingClientRect())),
 								el_ = this.$('.menu[data-link_menu="'+el.dataset.menu+'"]');
+							if (p.left < 0) {
+								el.parentNode.scrollBy(p.left, 0);
+								p.left = 0;
+							}else if (window.innerWidth < (p.left + p.width)) {
+								el.parentNode.scrollBy((p.right - window.innerWidth), 0);
+								p.left -= (p.right - window.innerWidth);
+								p.right = 0;
+							}
 							el_.dataset.layout = (((window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
 							el_.style.left = p.left+'px';
 							el_.style.right = p.right+'px';
