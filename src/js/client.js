@@ -1098,7 +1098,8 @@
 								el.parentNode.scrollBy((p.right - window.innerWidth), 0);
 								p.left -= (p.right - window.innerWidth);
 								p.right = 0;
-							}
+							}else if ((p.width < 128) && ((p.left + 128) > window.innerWidth))
+								p.left = window.innerWidth - 128;
 							el_.dataset.layout = (((window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
 							el_.style.left = p.left+'px';
 							el_.style.right = p.right+'px';

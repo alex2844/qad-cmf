@@ -1208,6 +1208,7 @@ label.input.extended input:focus {
 	position: absolute;
 	visibility: hidden;
 	min-width: 128px;
+	max-width: 40vw;
 	width: 100%;
 	padding: 8px 0 8px 0px;
 	z-index: 2;
@@ -1254,7 +1255,7 @@ label.input.extended input:focus {
 .menu .submenu .submenu {
 	top: -1px;
 }
-.menu:focus > ul, .menu ul li:hover > .submenu, .menu:focus > .submenu > li > .submenu:before, .menu ul li:hover > .submenu > li > .submenu:before {
+label.input.menu input:focus ~ ul, .menu:focus > ul, .menu ul li:hover > .submenu, .menu:focus > .submenu > li > .submenu:before, .menu ul li:hover > .submenu > li > .submenu:before {
 	visibility: visible;
 }
 header .menu ul {
@@ -1485,5 +1486,22 @@ dialog.scrolled h2, dialog.scrolled footer {
 	aside {
 		width: calc(100% - 56px) !important;
 		flex: calc(100% - 56px) !important;
+	}
+}
+@media (hover: none) {
+	.fab {
+		pointer-events: none;
+	}
+	.fab > * {
+		pointer-events: all;
+	}
+	.menu[data-layout="left"] .submenu .submenu {
+		left: 10%;
+	}
+	.menu[data-layout="right"] .submenu .submenu {
+		right: 10%;
+	}
+	.submenu .submenu:before {
+		display: none;
 	}
 }
