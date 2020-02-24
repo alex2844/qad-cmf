@@ -1096,13 +1096,21 @@
 								p.left = 0;
 							}else if (window.innerWidth < (p.left + p.width)) {
 								el.parentNode.scrollBy((p.right - window.innerWidth), 0);
-								p.left -= (p.right - window.innerWidth);
-								p.right = 0;
-							}else if ((p.width < 128) && ((p.left + 128) > window.innerWidth))
-								p.left = window.innerWidth - 128;
-							el_.dataset.layout = (((window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
-							el_.style.left = p.left+'px';
-							el_.style.right = p.right+'px';
+								// p.left -= (p.right - window.innerWidth);
+								// p.right = 0;
+								p.left = null;
+								p.right = 35;
+							}else if ((p.width < 128) && ((p.left + 128 + 35) > window.innerWidth)) {
+								// p.left = window.innerWidth - 128;
+								p.left = null;
+								p.right = 10;
+								p.width = 128;
+							}
+							el_.dataset.layout = (((p.left != null) && (window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
+							if (p.left != null)
+								el_.style.left = p.left+'px';
+							if (p.right != null)
+								el_.style.right = p.right+'px';
 							el_.style.top = p.top+'px';
 							el_.style.width = p.width+'px';
 							el_.style.position = 'absolute';
