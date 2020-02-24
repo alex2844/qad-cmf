@@ -1255,7 +1255,7 @@ label.input.extended input:focus {
 .menu .submenu .submenu {
 	top: -1px;
 }
-label.input.menu input:focus ~ ul, .menu:focus > ul, .menu ul li:hover > .submenu, .menu:focus > .submenu > li > .submenu:before, .menu ul li:hover > .submenu > li > .submenu:before {
+.submenu.active, label.input.menu input:focus ~ ul, .menu:focus > ul, .menu ul li:hover > .submenu, .menu:focus > .submenu > li > .submenu:before, .menu ul li:hover > .submenu > li > .submenu:before {
 	visibility: visible;
 }
 header .menu ul {

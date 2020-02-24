@@ -1109,16 +1109,32 @@
 							el_.style.zIndex = 4;
 							el_.focus();
 						});
-					el.$$('ul li').forEach(ell => ell.on('click', () => {
-						let s;
-						if (s = el.$('input')) {
-							s.value = ell.innerText;
-							if (s = el.$('li[aria-selected="true"]'))
-								s.setAttribute('aria-selected', false);
-							ell.setAttribute('aria-selected', true);
-						}
-						setTimeout(() => document.activeElement.blur());
-					}));
+					el.$$('ul li').forEach(ell => {
+						if (!ell.parentNode.classList.contains('submenu'))
+							ell.on('click', e => {
+								let s;
+								if (s = el.$('input')) {
+									s.value = ell.innerText;
+									if (s = el.$('li[aria-selected="true"]'))
+										s.setAttribute('aria-selected', false);
+									ell.setAttribute('aria-selected', true);
+								}
+								setTimeout(() => document.activeElement.blur());
+							});
+						else if (matchMedia('(hover: none)').matches)
+							ell.on('touchstart', e => {
+								let el_ = e.target.firstElementChild;
+								if (!el_)
+									return;
+								e.stopPropagation();
+								e.preventDefault();
+								el_.classList.add('active');
+								document.body.on('click', function handler(ev) {
+									el_.classList.remove('active');
+									this.off('click', handler);
+								});
+							});
+					});
 				}
 			}
 		}
