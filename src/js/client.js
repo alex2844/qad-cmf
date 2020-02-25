@@ -1089,24 +1089,25 @@
 								s.append(el.$('ul'));
 								this.$('body').append(s);
 							}
-							let p = JSON.parse(JSON.stringify(el.getBoundingClientRect())),
+							let n = el.parentNode.getBoundingClientRect(),
+								p = JSON.parse(JSON.stringify(el.getBoundingClientRect())),
 								el_ = this.$('.menu[data-link_menu="'+el.dataset.menu+'"]');
-							if (p.left < 0) {
-								el.parentNode.scrollBy(p.left, 0);
+							if ((p.left - n.left) < 0) {
+								el.parentNode.scrollBy((p.left - n.left), 0);
 								p.left = 0;
-							}else if (window.innerWidth < (p.left + p.width)) {
-								el.parentNode.scrollBy((p.right - window.innerWidth), 0);
+							}else if (n.width < (p.left + p.width)) {
+								el.parentNode.scrollBy((p.right - n.width), 0);
 								// p.left -= (p.right - window.innerWidth);
 								// p.right = 0;
 								p.left = null;
 								p.right = 35;
-							}else if ((p.width < 128) && ((p.left + 128 + 35) > window.innerWidth)) {
+							}else if ((p.width < 128) && ((p.left + 128 + 35) > n.width)) {
 								// p.left = window.innerWidth - 128;
 								p.left = null;
 								p.right = 10;
 								p.width = 128;
 							}
-							el_.dataset.layout = (((p.left != null) && (window.innerWidth / 2) > (p.left + p.width)) ? 'left' : 'right');
+							el_.dataset.layout = (((p.left != null) && (n.width / 2) > (p.left + p.width)) ? 'left' : 'right');
 							if (p.left != null)
 								el_.style.left = p.left+'px';
 							if (p.right != null)
