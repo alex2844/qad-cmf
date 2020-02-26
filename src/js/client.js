@@ -28,10 +28,10 @@
 				this.dispatchEvent(new CustomEvent(event, {detail: args}));
 				return this;
 			}
-			Element.prototype.$ = function(css) {
+			DocumentFragment.prototype.$ = Element.prototype.$ = function(css) {
 				return self.$(css, this);
 			}
-			Element.prototype.$$ = function(css) {
+			DocumentFragment.prototype.$$ = Element.prototype.$$ = function(css) {
 				return self.$$(css, this);
 			}
 			Element.prototype.html = function(string, text) {
