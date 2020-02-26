@@ -413,6 +413,7 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 }
 .card.error {
 	--color: #fff;
+	--color-rgb: 255, 255, 255;
 	--aside: var(--error);
 }
 .card h2 {
