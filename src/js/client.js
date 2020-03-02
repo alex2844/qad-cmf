@@ -785,7 +785,7 @@
 					}
 					aside.style.opacity = 1;
 					if (left)
-						header.prepend(this.$('<button class="material-icons" title="Главное меню">menu</button>').firstElementChild.on('click', e => {
+						header.prepend(this.$('<button class="material-icons" title="Home">menu</button>').firstElementChild.on('click', e => {
 							aside[(aside.visible ? 'close' : 'open')]();
 						}));
 					else{
@@ -1113,7 +1113,7 @@
 							if (p.right != null)
 								el_.style.right = p.right+'px';
 							el_.style.top = p.top+'px';
-							el_.style.width = p.width+'px';
+							el_.style.width = ((p.width > n.width) ? (n.width - 20) : p.width)+'px';
 							el_.style.position = 'absolute';
 							el_.style.zIndex = 4;
 							el_.focus();

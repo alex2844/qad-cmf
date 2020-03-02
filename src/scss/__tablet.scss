@@ -1505,4 +1505,7 @@ dialog.scrolled h2, dialog.scrolled footer {
 	.submenu .submenu:before {
 		display: none;
 	}
+	.menu ul {
+		max-width: 80vw;
+	}
 }
