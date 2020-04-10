@@ -139,7 +139,7 @@
 					configurable: true
 				},
 				color_scheme: {
-					get: () => (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi,'')),
+					get: () => (document.documentElement.getAttribute('data-user-color-scheme') || (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi,''))),
 					set: (val) => {
 						window.localStorage.setItem('color_scheme', val);
 						if (val == 'auto')
