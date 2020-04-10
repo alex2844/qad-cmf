@@ -33,7 +33,9 @@
 		</header>
 		<h3>Mail</h3>
 		<h6>email@material.io</h6>
-		<nav>
+		<nav onprerender="
+			(url.norbpanel && this.classList.add('round'))
+		">
 			<a class="active"><i class="material-icons">inbox</i> Inbox</a>
 			<a><i class="material-icons">star</i> Star</a>
 			<hr />
@@ -663,6 +665,10 @@
 						<span>Крашеная шапка левой панели</span>
 					</label>
 					<label class="switch">
+						<input type="checkbox" value="0" name="norbpanel" onrender="(this.disabled = !document.querySelector('[name=\'nolpanel\']').checked)" />
+						<span>Не закруглять кнопки в левой панели</span>
+					</label>
+					<label class="switch">
 						<input type="checkbox" value="0" name="norpanel" />
 						<span>Правая панель</span>
 					</label>
@@ -678,6 +684,10 @@
 					<label class="switch">
 						<input type="checkbox" value="0" name="nofbuttonb" onrender="(this.disabled = (!document.querySelector('[name=\'nofbuttons\']').checked || !document.querySelector('[name=\'nofbutton\']').checked))" />
 						<span>Большая раскрывающая кнопка</span>
+					</label>
+					<label class="switch">
+						<input type="checkbox" value="0" name="nofbuttona" onrender="(this.disabled = (!document.querySelector('[name=\'nofbuttons\']').checked || !document.querySelector('[name=\'nofbutton\']').checked))" />
+						<span>Список из аватарок</span>
 					</label>
 					<h2>Стили</h2>
 					<label class="select">
@@ -873,12 +883,17 @@
 					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 					Много переносов для скрола
 					<div class="fab hover" onprerender="((url.nofbutton || url.nofbuttons) && this.remove())">
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
-						<img src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<img onprerender="(url.nofbuttona && this.remove())" src="https://lh3.googleusercontent.com/-g9MlTzm_zpI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rc-YnGkB-amGtE25HzkauA5RtVixA.CMID/s64-c/photo.jpg" hidden />
+						<button onprerender="(!url.nofbuttona && this.remove())" hidden>Кнопка 1</button>
+						<button onprerender="(!url.nofbuttona && this.remove())" hidden>Кнопка 2</button>
+						<button onprerender="(!url.nofbuttona && this.remove())" hidden>Кнопка 3</button>
+						<button onprerender="(!url.nofbuttona && this.remove())" hidden>Кнопка 4</button>
+						<button onprerender="(!url.nofbuttona && this.remove())" hidden>Кнопка 5</button>
 						<button onprerender="(url.nofbuttonb && this.remove())"><i class="material-icons">share</i> Share</button>
 						<button onprerender="(!url.nofbuttonb && this.remove())" class="material-icons">share</button>
 					</div>
