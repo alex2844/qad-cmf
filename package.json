@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"scripts": {
-		"make": "sudo mount -i -o remount,exec $(findmnt -rno TARGET --target ./) && gulp"
+		"build": "npx gulp"
 	},
 	"dependencies": {},
 	"devDependencies": {
