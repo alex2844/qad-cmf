@@ -584,7 +584,8 @@ button:not(.color), [type="submit"] {
 	background-color: transparent;
 }
 button.color:not([disabled]), button:not(.color):before {
-	background-color: var(--theme, var(--color));
+	/* background-color: var(--theme, var(--color)); */
+	background-color: var(--theme, #000);
 }
 button.color {
 	padding: 0 16px;
