@@ -251,6 +251,9 @@ aside nav {
 	padding: 8px 0;
 	list-style-type: none;
 }
+nav.round {
+	margin-right: 8px;
+}
 aside h3+nav {
 	margin-top: 16px;
 }
@@ -325,6 +328,15 @@ aside nav a.active:before {
 }
 aside nav a.active:hover:before {
 	opacity: .16;
+}
+aside nav.round a {
+	margin: 0;
+	padding-left: 16px;
+	border-radius: 0 25px 25px 0;
+	height: 48px;
+	min-width: 48px;
+	width: 100%;
+	overflow: hidden;
 }
 body>.content>footer h4, body>footer h4 {
 	color: rgba(var(--color-rgb), .8);
