@@ -63,7 +63,7 @@
 					this.form = this.$('form[method="dialog"]');
 					if (TV && ('SpatialNavigation' in window)) {
 						self.controller_.focus = e.target;
-						[ self.controller_.aside, self.controller_.body ].forEach(c => SpatialNavigation.disable(c));
+						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.disable(c));
 					}
 					if ((!TV && se && (se.scrollHeight != se.offsetHeight)) || (TV && !this.form))
 						this.classList.add('scrolled');
@@ -79,7 +79,7 @@
 				}
 				return new Promise((resolve) => this.on('close', e => {
 					if (TV && ('SpatialNavigation' in window)) {
-						[ self.controller_.aside, self.controller_.body ].forEach(c => SpatialNavigation.enable(c));
+						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.enable(c));
 						if (self.controller_.focus && ('SpatialNavigation' in window))
 							SpatialNavigation.focus(self.controller_.focus);
 						this.returnValue = ((this.form && (e.target.type != 'reset')) ? new URLSearchParams(new FormData(this.form)).toString() : '');
@@ -346,123 +346,7 @@
 						});
 						onvisibilitychange.forEach(el => vcObserver.observe(el));
 					}
-					if (TV) {
-						let timer,
-							aside = document.createElement('aside'),
-							ul = document.createElement('ul');
-						aside.classList.add('tv');
-						let add = el => {
-							let div = el.closest('[id]'),
-								h = el.previousElementSibling,
-								pos = div.getBoundingClientRect(),
-								li = document.createElement('li');
-							h.classList.add('tv');
-							li.textContent = h.textContent;
-							li.dataset.link = div.id;
-							div.classList.add('tv_link');
-							ul.append(li.on('click',
-								() => SpatialNavigation.focus(div.$('.carousel > div > *'))
-							).on('focus',
-								() => li.parentNode.parentNode.classList.add('active')
-							).on('blur',
-								() => {
-									if (timer)
-										clearTimeout(timer);
-									timer = setTimeout(() => {
-										if (!document.activeElement.closest('aside.tv, header'))
-											li.parentNode.parentNode.classList.remove('active');
-										timer = null;
-									});
-								}
-							));
-						}
-						this.$$('main [id] > h2 ~ .carousel').forEach(el => add(el));
-						if (ul.childElementCount)
-							this.$$('[role="group"][aria-label]').forEach(el => {
-								let div = this.$$('main [id].tv_link').slice(-1)[0],
-									list = this.$('<div id="'+'_'+Math.random().toString(36).substr(2, 9)+'"><h2 class="'+div.$('h2').getAttribute('class')+'">'+el.getAttribute('aria-label')+'</h2><div class="carousel"><div></div></div></div>').firstElementChild;
-								list.$('.carousel div').append(...[].slice.call(el.children).map(el_ => {
-									el_.classList.add('card');
-									el_.classList.remove('material-icons');
-									el_.innerHTML = '<div class="media" style="--aspect-ratio:16/9;"><i class="material-icons">'+el_.innerHTML+'</i></div><h2>'+el_.title+'</h2><br>';
-									return el_;
-								}));
-								div.after(list);
-								add(list.$('.carousel'));
-							});
-						if (ul.childElementCount) {
-							aside.append(ul);
-							document.body.prepend(aside);
-						}
-						setTimeout(() => {
-							let sn = () => {
-								window.on('sn:willunfocus', e => {
-									let card;
-									if ((card = e.target.closest('.info')) && e.target.parentNode.classList.contains('tabs') && e.detail.nextElement && e.detail.nextElement.closest('.info') && !e.detail.nextElement.parentNode.classList.contains('tabs'))
-										card.classList.add('scrolled');
-									else if ((card = e.detail.nextElement) && card.parentNode.classList.contains('tabs') && (card = card.closest('.info')))
-										card.classList.remove('scrolled');
-									else if (e.target.closest('.info.fixed') && e.detail.nextElement && !e.detail.nextElement.closest('.info.fixed'))
-										e.preventDefault();
-								});
-								window.on('sn:focused', e => {
-									let nav, li, link, card;
-									if (e.target.dataset.link)
-										link = this.$('#'+(li = e.target).dataset.link);
-									else{
-										if (link = (card = e.target).closest('.tv_link'))
-											li = this.$('[data-link="'+link.id+'"]');
-										else if (!e.target.closest('dialog.scrolled') && (!(nav = e.target.closest('.info .nav')))) {
-											if ((li = e.detail.previousElement) && li.closest('aside') && card.closest('label.input.extended'))
-												aside.classList.add('active');
-											// return;
-										}
-									}
-									this.$$('.tv_link').forEach(el_ => (el_.style.filter = ((el_ == link) ? '' : 'brightness(0.5)')));
-									(card || link).scrollIntoView({
-										block: (((li && (li.parentNode.firstElementChild == li)) || nav) ? 'end' : 'center'),
-										inline: (nav ? 'end' : 'center')
-									});
-									if (li && link)
-										aside.scrollTop = li.offsetTop - (card || link).getBoundingClientRect().top;
-								});
-								window.on('sn:navigatefailed', e => {
-									let el;
-									if ((e.detail.direction == 'down') && (el = this.$('header[data-extended="focus"]')))
-										aside.hidden = !(el.dataset.extended = 'blur');
-								});
-								window.on('sn:enter-down', e => {
-									let el;
-									if ((e.target.tagName == 'LI') && (el = e.target.$('input'))) {
-										console.log(el);
-										el.click();
-									}else if (e.target.dataset.more_min && e.target.dataset.more_max) {
-										let card = e.target.closest('.info');
-										e.target.scrollTop = 0;
-										if (card.classList.contains('fixed')) {
-											card.classList.remove('fixed');
-											card.scrollIntoView();
-										}else
-											card.classList.add('fixed');
-									}else if ([ 'BUTTON', 'A' ].indexOf((el = e.target).tagName) == -1)
-										el.emit('click');
-								});
-								this.controller_ = SpatialNavigation.init([
-									{ selector: 'label.input.extended i, input, aside.tv li' },
-									{ selector: 'a, [tabindex], button' },
-									{ selector: 'dialog li', restrict: 'self-only' }
-								]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
-							};
-							if ('SpatialNavigation' in window)
-								sn();
-							else{
-								let script = document.createElement('script');
-								script.src = 'https://alex2844.github.io/js-spatial-navigation/spatial_navigation.min.js';
-								script.on('load', () => sn());
-								document.body.append(script);
-							}
-						}, 700);
-					}
+					this.init.tv();
 				},
 				target: (content, header, nav) => {
 					let _tabset = el => {
@@ -507,6 +391,142 @@
 								setTimeout(() => sel.scrollIntoView()); // content.scrollTop = content.scrollTop + sel.getBoundingClientRect().top - 200;
 						}
 					});
+				},
+				tv: () => {
+					if (TV) {
+						let timer,
+							aside = this.$('aside.tv'),
+							ul = document.createElement('ul'),
+							id = Math.random().toString(16).slice(2);
+						if (aside)
+							aside.remove();
+						aside = document.createElement('aside');
+						aside.classList.add('tv');
+						let add = el => {
+							let div = el.closest('[id]'),
+								h = el.previousElementSibling,
+								pos = div.getBoundingClientRect(),
+								li = document.createElement('li');
+							h.classList.add('tv');
+							li.textContent = h.textContent;
+							li.dataset.link = div.id;
+							div.classList.add('tv_link');
+							ul.append(li.on('click',
+								() => SpatialNavigation.focus(div.$('.carousel > div > *'))
+							).on('focus',
+								() => li.parentNode.parentNode.classList.add('active')
+							).on('blur',
+								() => {
+									if (timer)
+										clearTimeout(timer);
+									timer = setTimeout(() => {
+										if (!document.activeElement.closest('aside.tv, header'))
+											li.parentNode.parentNode.classList.remove('active');
+										timer = null;
+									});
+								}
+							));
+						}
+						this.$$('main [id] > h2 ~ .carousel').forEach(el => add(el));
+						if (ul.childElementCount)
+							this.$$('[role="group"][aria-label]').forEach(el => {
+								let div = this.$$('main [id].tv_link').slice(-1)[0],
+									list = this.$('<div id="'+'_'+Math.random().toString(36).substr(2, 9)+'"><h2 class="'+div.$('h2').getAttribute('class')+'">'+el.getAttribute('aria-label')+'</h2><div class="carousel"><div></div></div></div>').firstElementChild;
+								list.$('.carousel div').append(...[].slice.call(el.children).map(el_ => {
+									el_.classList.add('card');
+									el_.classList.remove('material-icons');
+									el_.innerHTML = '<div class="media" style="--aspect-ratio:16/9;"><i class="material-icons">'+el_.innerHTML+'</i></div><h2>'+el_.title+'</h2><br>';
+									return el_;
+								}));
+								div.after(list);
+								add(list.$('.carousel'));
+								el.remove();
+							});
+						if (ul.childElementCount) {
+							aside.append(ul);
+							document.body.prepend(aside);
+						}
+						setTimeout(() => {
+							let sn = () => {
+								if ('controller_' in this) {
+									SpatialNavigation.uninit();
+									for (let ev in this.controller_.events) {
+										window.off(ev, this.controller_.events[ev]);
+									}
+								}
+								this.controller_ = {};
+								this.controller_.events = {
+									'sn:willunfocus': e => {
+										let card;
+										if ((card = e.target.closest('.info')) && e.target.parentNode.classList.contains('tabs') && e.detail.nextElement && e.detail.nextElement.closest('.info') && !e.detail.nextElement.parentNode.classList.contains('tabs'))
+											card.classList.add('scrolled');
+										else if ((card = e.detail.nextElement) && card.parentNode.classList.contains('tabs') && (card = card.closest('.info')))
+											card.classList.remove('scrolled');
+										else if (e.target.closest('.info.fixed') && e.detail.nextElement && !e.detail.nextElement.closest('.info.fixed'))
+											e.preventDefault();
+									},
+									'sn:focused': e => {
+										let nav, li, link, card;
+										if (e.target.dataset.link)
+											link = this.$('#'+(li = e.target).dataset.link);
+										else{
+											if (link = (card = e.target).closest('.tv_link'))
+												li = this.$('[data-link="'+link.id+'"]');
+											else if (!e.target.closest('dialog.scrolled') && (!(nav = e.target.closest('.info .nav')))) {
+												if ((li = e.detail.previousElement) && li.closest('aside') && card.closest('label.input.extended'))
+													aside.classList.add('active');
+												// return;
+											}
+										}
+										this.$$('.tv_link').forEach(el_ => (el_.style.filter = ((el_ == link) ? '' : 'brightness(0.5)')));
+										(card || link).scrollIntoView({
+											block: (((li && (li.parentNode.firstElementChild == li)) || nav) ? 'end' : 'center'),
+											inline: (nav ? 'end' : 'center')
+										});
+										if (li && link)
+											aside.scrollTop = li.offsetTop - (card || link).getBoundingClientRect().top;
+									},
+									'sn:navigatefailed': e => {
+										let el;
+										if ((e.detail.direction == 'down') && (el = this.$('header[data-extended="focus"]')))
+											aside.hidden = !(el.dataset.extended = 'blur');
+									},
+									'sn:enter-down': e => {
+										let el;
+										if ((e.target.tagName == 'LI') && (el = e.target.$('input'))) {
+											console.log(el);
+											el.click();
+										}else if (e.target.dataset.more_min && e.target.dataset.more_max) {
+											let card = e.target.closest('.info');
+											e.target.scrollTop = 0;
+											if (card.classList.contains('fixed')) {
+												card.classList.remove('fixed');
+												card.scrollIntoView();
+											}else
+												card.classList.add('fixed');
+										}else if ([ 'BUTTON', 'A' ].indexOf((el = e.target).tagName) == -1)
+											el.emit('click');
+									}
+								};
+								for (let ev in this.controller_.events) {
+									window.on(ev, this.controller_.events[ev]);
+								}
+								this.controller_.sections = SpatialNavigation.init([
+									{ selector: 'label.input.extended i, input, aside.tv li' },
+									{ selector: 'a:not(.index), [tabindex], button' },
+									{ selector: 'dialog li', restrict: 'self-only' }
+								]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
+							};
+							if ('SpatialNavigation' in window)
+								sn();
+							else{
+								let script = document.createElement('script');
+								script.src = 'https://alex2844.github.io/js-spatial-navigation/spatial_navigation.min.js';
+								script.on('load', () => sn());
+								document.body.append(script);
+							}
+						}, 700);
+					}
 				},
 				header: (header, nav) => {
 					let h1 = header.$('h1'),
