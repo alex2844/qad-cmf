@@ -9,7 +9,7 @@
         --scheme: 'light';
     }
 }
-[data-user-color-scheme="light"] {
+[data-user-color-scheme="light"]:not([data-user-mode]) {
 	--color-rgb: 0, 0, 0;
     --color: #000;
     --background: #fff;

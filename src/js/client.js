@@ -1,12 +1,13 @@
 (function() {
-	var TV = (document.documentElement.getAttribute('data-user-mode') == 'tv');
 	window.qad = new (class Qad {
 		constructor(...args) {
 			this.libs();
 			let self = this;
-			let scheme;
+			let scheme, mode;
 			if (scheme = window.localStorage.getItem('color_scheme'))
 				document.documentElement.setAttribute('data-user-color-scheme', scheme);
+			if (mode = window.localStorage.getItem('mode'))
+				document.documentElement.setAttribute('data-user-mode', mode);
 			if (!('$' in window) && !('$$' in window)) {
 				window.$ = self.$.bind(self);
 				window.$$ = self.$$.bind(self);
@@ -40,7 +41,7 @@
 				this[(text ? 'innerText' : 'innerHTML')] = string;
 				return this;
 			}
-			window[((this.libs_ && (this.libs_.indexOf('HTMLDialogElement') > -1)) ? 'Element' : 'HTMLDialogElement')].prototype.popup = function(e) {
+			window[((this.libs_ && (this.libs_.indexOf('HTMLDialogElement') > -1)) ? 'Element' : 'HTMLDialogElement')].prototype.popup = function() {
 				let url = location.href,
 					y = window.scrollY;
 				let events = {
@@ -61,11 +62,11 @@
 				if (typeof(this.form) == 'undefined') {
 					let se = this.$('section');
 					this.form = this.$('form[method="dialog"]');
-					if (TV && ('SpatialNavigation' in window)) {
-						self.controller_.focus = e.target;
+					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
+						self.controller_.focus = event.target;
 						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.disable(c));
 					}
-					if ((!TV && se && (se.scrollHeight != se.offsetHeight)) || (TV && !this.form))
+					if (((self.mode != 'tv') && se && (se.scrollHeight != se.offsetHeight)) || ((self.mode == 'tv') && !this.form))
 						this.classList.add('scrolled');
 					Object.keys(events).forEach(ev => ((ev == 'popstate') ? window : this).on(ev, events[ev]));
 					// this.on('click', e => ((e.target.tagName == 'DIALOG') && this.close()));
@@ -78,7 +79,7 @@
 					}));
 				}
 				return new Promise((resolve) => this.on('close', e => {
-					if (TV && ('SpatialNavigation' in window)) {
+					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
 						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.enable(c));
 						if (self.controller_.focus && ('SpatialNavigation' in window))
 							SpatialNavigation.focus(self.controller_.focus);
@@ -142,10 +143,22 @@
 					get: () => (document.documentElement.getAttribute('data-user-color-scheme') || (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi,''))),
 					set: (val) => {
 						window.localStorage.setItem('color_scheme', val);
-						if (val == 'auto')
+						if (!val || (val == 'auto'))
 							document.documentElement.removeAttribute('data-user-color-scheme');
 						else
 							document.documentElement.setAttribute('data-user-color-scheme', val);
+					},
+					enumerable: true,
+					configurable: true
+				},
+				mode: {
+					get: () => document.documentElement.getAttribute('data-user-mode'),
+					set: (val) => {
+						window.localStorage.setItem('mode', val);
+						if (!val || (val == 'auto'))
+							document.documentElement.removeAttribute('data-user-mode');
+						else
+							document.documentElement.setAttribute('data-user-mode', val);
 					},
 					enumerable: true,
 					configurable: true
@@ -154,7 +167,7 @@
 					get: () => (window._reduced_motion || location.search.split('reduced_motion=').slice(1).join().split('&').slice(0, 1).join() || getComputedStyle(document.documentElement).getPropertyValue('--motion').replace(/[^a-z0-9#-]+/gi,'')),
 					set: (val) => {
 						window._reduced_motion = val;
-						if (val == 'auto')
+						if (!val || (val == 'auto'))
 							document.documentElement.removeAttribute('data-user-reduced-motion');
 						else
 							document.documentElement.setAttribute('data-user-reduced-motion', val);
@@ -392,8 +405,8 @@
 						}
 					});
 				},
-				tv: () => {
-					if (TV) {
+				tv: (s) => {
+					if (this.mode == 'tv') {
 						let timer,
 							aside = this.$('aside.tv'),
 							ul = document.createElement('ul'),
@@ -453,8 +466,8 @@
 									for (let ev in this.controller_.events) {
 										window.off(ev, this.controller_.events[ev]);
 									}
-								}
-								this.controller_ = {};
+								}else
+									this.controller_ = {};
 								this.controller_.events = {
 									'sn:willunfocus': e => {
 										let card;
@@ -514,7 +527,7 @@
 								this.controller_.sections = SpatialNavigation.init([
 									{ selector: 'label.input.extended i, input, aside.tv li' },
 									{ selector: 'a:not(.index), [tabindex], button' },
-									{ selector: 'dialog li', restrict: 'self-only' }
+									{ selector: 'dialog li' }
 								]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
 							};
 							if ('SpatialNavigation' in window)
@@ -537,7 +550,7 @@
 						ext = header.$('.extended input');
 					if (ext) {
 						let mic = ext.previousElementSibling;
-						if (TV)
+						if (this.mode == 'tv')
 							ext.parentNode.firstElementChild.on('click', () => {
 								let aside;
 								header.dataset.extended = 'focus';
@@ -561,7 +574,7 @@
 											s.click();
 									},
 									onstart: () => {
-										if (TV) {
+										if (this.mode == 'tv') {
 											mic.style.setProperty('background-color', '#ff4343', 'important');
 											mic.style.setProperty('color', '#eee', 'important');
 										}else
@@ -1182,7 +1195,7 @@
 				fetch(el.dataset.api+(el.value_ = el.value), {
 					signal: (el.controller_ = new AbortController()).signal
 				}).then(d => d.json()).then(d => {
-					if (TV) {
+					if (this.mode == 'tv') {
 						let list = el.list.parentNode.$('section .carousel div');
 						if (!list) {
 							el.parentNode.append(this.$('<section><div class="carousel"><div></div></div></section>'));

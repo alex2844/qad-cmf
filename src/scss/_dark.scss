@@ -20,7 +20,7 @@
         filter: invert(100%);
     }
 }
-[data-user-color-scheme="dark"] {
+[data-user-color-scheme="dark"]:not([data-user-mode]) {
 	--color-rgb: 255, 255, 255;
     --color: #fff;
     --background: #202124;
@@ -29,10 +29,12 @@
 	--error: #CF6679;
     --scheme: 'dark';
 }
-[data-user-color-scheme="dark"] .card, [data-user-color-scheme="dark"] .active, [data-user-color-scheme="dark"] details[open] > summary {
+[data-user-color-scheme="dark"]:not([data-user-mode]) .card,
+[data-user-color-scheme="dark"]:not([data-user-mode]) .active,
+[data-user-color-scheme="dark"]:not([data-user-mode]) details[open] > summary {
 	--theme: var(--theme-light, rgb(var(--theme-rgb)));
 }
-[data-user-color-scheme="dark"] img:not([src*=".svg"]) {
+[data-user-color-scheme="dark"]:not([data-user-mode]) img:not([src*=".svg"]) {
     filter: grayscale(15%);
 }
 [data-user-color-scheme="dark"] img[src*=".svg"] {
