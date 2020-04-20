@@ -405,7 +405,7 @@
 						}
 					});
 				},
-				tv: (s) => {
+				tv: () => {
 					if (this.mode == 'tv') {
 						let timer,
 							aside = this.$('aside.tv'),
@@ -424,21 +424,23 @@
 							li.textContent = h.textContent;
 							li.dataset.link = div.id;
 							div.classList.add('tv_link');
-							ul.append(li.on('click',
-								() => SpatialNavigation.focus(div.$('.carousel > div > *'))
-							).on('focus',
-								() => li.parentNode.parentNode.classList.add('active')
-							).on('blur',
-								() => {
-									if (timer)
-										clearTimeout(timer);
-									timer = setTimeout(() => {
-										if (!document.activeElement.closest('aside.tv, header'))
-											li.parentNode.parentNode.classList.remove('active');
-										timer = null;
-									});
-								}
-							));
+							ul.append(li.on('click', () => {
+								SpatialNavigation.focus(div.$('.carousel > div > *'));
+							}).on('focus', () => {
+								li.parentNode.parentNode.classList.add('active');
+							}).on('blur', () => {
+								/*
+								if (timer)
+									clearTimeout(timer);
+								timer = setTimeout(() => {
+									if (!document.activeElement.closest('aside.tv, header'))
+								*/
+										li.parentNode.parentNode.classList.remove('active');
+								/*
+									timer = null;
+								});
+								*/
+							}));
 						}
 						this.$$('main [id] > h2 ~ .carousel').forEach(el => add(el));
 						if (ul.childElementCount)
