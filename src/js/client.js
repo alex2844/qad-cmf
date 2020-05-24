@@ -544,7 +544,7 @@
 							this.controller_.sections = SpatialNavigation.init([
 								{ selector: 'label.input.extended i, input, aside.tv li' },
 								{ selector: 'a:not(.index), [tabindex], button' },
-								{ selector: 'dialog li' }
+								{ selector: 'dialog li, dialog summary' }
 							]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
 						};
 						if ('SpatialNavigation' in window)
