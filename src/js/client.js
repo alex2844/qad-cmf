@@ -517,7 +517,6 @@
 										aside.scrollTop = li.offsetTop - (card || link).getBoundingClientRect().top;
 								},
 								'sn:navigatefailed': e => {
-									console.log('sn:navigatefailed', e);
 									let el;
 									if ((e.detail.direction == 'down') && (el = this.$('header[data-extended="focus"]')))
 										aside.hidden = !(el.dataset.extended = 'blur');
