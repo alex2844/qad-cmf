@@ -12,6 +12,9 @@ dialog {
 dialog::backdrop {
 	/* background-color: #000; */
 }
+dialog form {
+	height: 100%;
+}
 dialog.scrolled {
 	padding-top: 50vh;
 	padding-bottom: 45vh;
