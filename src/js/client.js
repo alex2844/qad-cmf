@@ -63,7 +63,7 @@
 					let se = this.$('section');
 					this.form = this.$('form[method="dialog"]');
 					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
-						self.controller_.focus = event.target;
+						self.controller_.focusDialog = (event && event.target);
 						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.disable(c));
 					}
 					if (((self.mode != 'tv') && se && (se.scrollHeight != se.offsetHeight)) || ((self.mode == 'tv') && !this.form))
@@ -81,8 +81,8 @@
 				return new Promise((resolve) => this.on('close', e => {
 					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
 						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.enable(c));
-						if (self.controller_.focus && ('SpatialNavigation' in window))
-							SpatialNavigation.focus(self.controller_.focus);
+						if (self.controller_.focusDialog && ('SpatialNavigation' in window))
+							SpatialNavigation.focus(self.controller_.focusDialog);
 						this.returnValue = ((this.form && (e.target.type != 'reset')) ? new URLSearchParams(new FormData(this.form)).toString() : '');
 					}
 					history.replaceState(null, null, url);
@@ -517,16 +517,18 @@
 										aside.scrollTop = li.offsetTop - (card || link).getBoundingClientRect().top;
 								},
 								'sn:navigatefailed': e => {
+									console.log('sn:navigatefailed', e);
 									let el;
 									if ((e.detail.direction == 'down') && (el = this.$('header[data-extended="focus"]')))
 										aside.hidden = !(el.dataset.extended = 'blur');
 								},
 								'sn:enter-down': e => {
+									/*
 									let el;
 									if ((e.target.tagName == 'LI') && (el = e.target.$('input'))) {
 										console.log(el);
 										el.click();
-									}else if (e.target.dataset.more_min && e.target.dataset.more_max) {
+									}else */ if (e.target.dataset.more_min && e.target.dataset.more_max) {
 										let card = e.target.closest('.info');
 										e.target.scrollTop = 0;
 										if (card.classList.contains('fixed')) {
@@ -534,8 +536,9 @@
 											card.scrollIntoView();
 										}else
 											card.classList.add('fixed');
-									}else if ([ 'BUTTON', 'A' ].indexOf((el = e.target).tagName) == -1)
+									} /* else if ([ 'BUTTON', 'A' ].indexOf((el = e.target).tagName) == -1)
 										el.emit('click');
+									*/
 								}
 							};
 							for (let ev in this.controller_.events) {
@@ -544,8 +547,9 @@
 							this.controller_.sections = SpatialNavigation.init([
 								{ selector: 'label.input.extended i, input, aside.tv li' },
 								{ selector: 'a:not(.index), [tabindex], button' },
-								{ selector: 'dialog li, dialog summary' }
-							]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog' ][i]] = e, r), {});
+								{ selector: 'dialog li, dialog summary' },
+								{ selector: '.menu li' }
+							]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog', 'menu' ][i]] = e, r), {});
 						};
 						if ('SpatialNavigation' in window)
 							sn();
@@ -1130,6 +1134,31 @@
 					}
 				},
 				menu: el => {
+					let close;
+					if ((this.mode == 'tv') && ('SpatialNavigation' in window)) {
+						close = () => {
+							el.classList.remove('active');
+							if (this.controller_.ss)
+								this.controller_.ss.forEach(s => SpatialNavigation.enable(s));
+							if (this.controller_.focusMenu)
+								setTimeout(() => SpatialNavigation.focus(this.controller_.focusMenu), 500);
+						};
+						el.on('focus', e => {
+							el.classList.add('active');
+							let li = el.$$('li').filter(li_ => li_.visible)[0];
+							if (!li)
+								return;
+							let ss = SpatialNavigation.getSections(),
+								s = SpatialNavigation.getSection(li);
+							this.controller_.ss = [];
+							for (let s_ in ss) {
+								if (!ss[s_].disabled && (s == s_))
+									SpatialNavigation.disable(this.controller_.ss.push(s_) && s_);
+							}
+							this.controller_.focusMenu = e.relatedTarget;
+							setTimeout(() => SpatialNavigation.focus(li), 500);
+						});
+					}
 					if (el.closest('nav.tabs'))
 						el.on('focus', () => {
 							if (!el.dataset.menu) {
@@ -1192,6 +1221,8 @@
 									this.off('click', handler);
 								});
 							});
+						if ((this.mode == 'tv') && ('SpatialNavigation' in window))
+							ell.on('click', close);
 					});
 				}
 			}
