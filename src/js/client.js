@@ -64,7 +64,7 @@
 					this.form = this.$('form[method="dialog"]');
 					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
 						self.controller_.focusDialog = (event && event.target);
-						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.disable(c));
+						[ 'aside', 'body' ].forEach(c => SpatialNavigation.disable(c));
 					}
 					if (((self.mode != 'tv') && se && (se.scrollHeight != se.offsetHeight)) || ((self.mode == 'tv') && !this.form))
 						this.classList.add('scrolled');
@@ -80,9 +80,11 @@
 				}
 				return new Promise((resolve) => this.on('close', e => {
 					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
-						[ self.controller_.sections.aside, self.controller_.sections.body ].forEach(c => SpatialNavigation.enable(c));
-						if (self.controller_.focusDialog && ('SpatialNavigation' in window))
+						[ 'aside', 'body' ].forEach(c => SpatialNavigation.enable(c));
+						if (self.controller_.focusDialog && ('SpatialNavigation' in window)) {
 							SpatialNavigation.focus(self.controller_.focusDialog);
+							delete self.controller_.focusDialog;
+						}
 						this.returnValue = ((this.form && (e.target.type != 'reset')) ? new URLSearchParams(new FormData(this.form)).toString() : '');
 					}
 					history.replaceState(null, null, url);
@@ -543,12 +545,12 @@
 							for (let ev in this.controller_.events) {
 								window.on(ev, this.controller_.events[ev]);
 							}
-							this.controller_.sections = SpatialNavigation.init([
-								{ selector: 'label.input.extended i, input, aside.tv li' },
-								{ selector: 'a:not(.index), [tabindex], button' },
-								{ selector: 'dialog li, dialog summary' },
-								{ selector: '.menu li' }
-							]).reduce((r, e, i) => (r[[ 'aside', 'body', 'dialog', 'menu' ][i]] = e, r), {});
+							SpatialNavigation.init({
+								aside: { selector: 'label.input.extended i, input, aside.tv li' },
+								body: { selector: 'a:not(.index), [tabindex], button' },
+								dialog: { selector: 'dialog li, dialog summary' },
+								menu: { selector: '.menu li' }
+							});
 						};
 						if ('SpatialNavigation' in window)
 							sn();
@@ -1140,7 +1142,10 @@
 							if (this.controller_.ss)
 								this.controller_.ss.forEach(s => SpatialNavigation.enable(s));
 							if (this.controller_.focusMenu)
-								setTimeout(() => SpatialNavigation.focus(this.controller_.focusMenu), 500);
+								setTimeout(() => {
+									SpatialNavigation.focus(this.controller_.focusMenu);
+									delete this.controller_.focusMenu;
+								}, 500);
 						};
 						el.on('focus', e => {
 							el.classList.add('active');
