@@ -154,6 +154,18 @@ button.color:focus {
 	color: var(--theme-dark, var(--theme));
 	background-color: var(--color);
 }
+.menu:not(.active) ul {
+	display: none;
+}
+label.menu.active {
+	--color-rgb: 0, 0, 0;
+	outline: solid rgba(var(--color-rgb), .5) 200vh;
+}
+label.menu.active > ul {
+	background: var(--color);
+	color: var(--aside);
+    visibility: visible;
+}
 .card h2 {
 	line-height: 1.25rem;
 	font-size: 0.875rem;
