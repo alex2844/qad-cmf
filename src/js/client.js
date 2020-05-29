@@ -1137,31 +1137,31 @@
 				menu: el => {
 					let close;
 					if ((this.mode == 'tv') && ('SpatialNavigation' in window)) {
-						close = () => {
-							el.classList.remove('active');
-							if (this.controller_.ss)
-								this.controller_.ss.forEach(s => SpatialNavigation.enable(s));
-							if (this.controller_.focusMenu)
-								setTimeout(() => {
-									SpatialNavigation.focus(this.controller_.focusMenu);
-									delete this.controller_.focusMenu;
-								}, 500);
-						};
-						el.on('focus', e => {
-							el.classList.add('active');
-							let li = el.$$('li');
-							if (!li.length)
-								return;
-							let ss = SpatialNavigation.getSections(),
-								s = SpatialNavigation.getSection(li[0]);
-							this.controller_.ss = [];
-							for (let s_ in ss) {
-								if (!ss[s_].disabled && (s == s_))
-									SpatialNavigation.disable(this.controller_.ss.push(s_) && s_);
+						close = () => el.classList.remove('active');
+						el.on('focus', e => ((this.controller_.focusMenu = e.relatedTarget), el.classList.add('active')));
+						(new IntersectionObserver((entries, observer) => {
+							if (entries[0].isIntersecting) {
+								let li = el.$$('li');
+								if (!li.length)
+									return;
+								let ss = SpatialNavigation.getSections(),
+									s = SpatialNavigation.getSection(li[0]);
+								this.controller_.ss = [];
+								for (let s_ in ss) {
+									if (!ss[s_].disabled && (s == s_))
+										SpatialNavigation.disable(this.controller_.ss.push(s_) && s_);
+								}
+								setTimeout(() => SpatialNavigation.focus(li.filter(li_ => li_.visible)[0]), 500);
+							}else{
+								if (this.controller_.ss)
+									this.controller_.ss.forEach(s => SpatialNavigation.enable(s));
+								if (this.controller_.focusMenu)
+									setTimeout(() => {
+										SpatialNavigation.focus(this.controller_.focusMenu);
+										delete this.controller_.focusMenu;
+									}, 500);
 							}
-							this.controller_.focusMenu = e.relatedTarget;
-							setTimeout(() => SpatialNavigation.focus(li.filter(li_ => li_.visible)[0]), 500);
-						});
+						})).observe(el.firstElementChild);
 					}
 					if (el.closest('nav.tabs'))
 						el.on('focus', () => {
