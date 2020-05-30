@@ -689,7 +689,11 @@
 						});
 				},
 				sidenav: (aside, content, header) => {
-					let st, sx, sy, sw, px, py,
+					if (!content)
+						content = this.$('body > .content');
+					if (!header)
+						header = this.$('body > header, body > .content > header');
+					let st, sx, sy, sw, px, py, btn,
 						fid = null,
 						left = (aside.parentNode.tagName == 'BODY'),
 						busy = false, once = false, lock = false,
@@ -706,8 +710,10 @@
 							(!left && (window.innerWidth - e.touches[0].clientX) >= 20)
 						)))
 							return;
+						/*
 						if (!aside.visible)
 							e.preventDefault();
+							*/
 						fid = e.touches[0].identifier;
 						st = e.timeStamp;
 						sx = e.touches[0].clientX;
@@ -769,7 +775,8 @@
 						) || aside.hidden) ? 'translate3d('+(left ? px : -px)+'px, 0, 0)' : null);
 					}
 					let expandTo = px => {
-						document.body.dataset.modal = aside.dataset.open = !!(aside.style.display = 'flex');
+						if ((left && (document.documentElement.clientWidth < 1024)) || (!left && (document.documentElement.clientWidth < 640)))
+							document.body.dataset.modal = aside.dataset.open = !!(aside.style.display = 'flex');
 						setTransformX((cw = px = Math.min(px, aside.offsetWidth)) - aside.offsetWidth);
 						content.style.setProperty('--_co', (co = 0.32 * px / aside.offsetWidth));
 					}
@@ -846,10 +853,10 @@
 						let h3 = aside.children[0];
 						if (h3 && (h3.tagName == 'H3')) {
 							if (h3.dataset.icon) {
-								let nav = header.$('nav'),
-									btn = this.$('<button class="material-icons" title="'+h3.textContent.trim()+'">'+h3.dataset.icon+'</button>').firstElementChild.on('click', e => {
-										aside[(aside.visible ? 'close' : 'open')]();
-									});
+								let nav = header.$('nav');
+								btn = this.$('<button class="material-icons" title="'+h3.textContent.trim()+'" data-sidenav>'+h3.dataset.icon+'</button>').firstElementChild.on('click', e => {
+									aside[(aside.visible ? 'close' : 'open')]();
+								});
 								if (nav)
 									nav.before(btn);
 								else
@@ -857,6 +864,13 @@
 							}
 							h3.append(this.$('<i class="material-icons">close</i>').firstElementChild.on('click', () => aside.close()));
 						}
+					}
+					let rm = aside.remove.bind(aside);
+					aside.remove = () => {
+						if (btn)
+							btn.remove();
+						document.off('touchstart', ts, { passive: false }).off('touchcancel', tf).off('touchend', tf);
+						rm();
 					}
 					setTransformX((-1 * aside.offsetWidth) - 30);
 					window.on('resize', e => (setTransformX((-1 * aside.offsetWidth) - 30)));
