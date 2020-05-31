@@ -95,6 +95,12 @@
 					this.returnValue = '';
 				}, { once: true }));
 			}
+			Object.defineProperty(location, 'json', {
+				get() {
+					return Object.fromEntries(new URLSearchParams(this.search));
+				},
+				enumerable: false
+			});
 			Object.defineProperties(Node.prototype, {
 				on: { enumerable: false },
 				off: { enumerable: false },
