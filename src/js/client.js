@@ -530,12 +530,11 @@
 										aside.hidden = !(el.dataset.extended = 'blur');
 								},
 								'sn:enter-down': e => {
-									/*
 									let el;
 									if ((e.target.tagName == 'LI') && (el = e.target.$('input'))) {
 										console.log(el);
 										el.click();
-									}else */ if (e.target.dataset.more_min && e.target.dataset.more_max) {
+									}else if (e.target.dataset.more_min && e.target.dataset.more_max) {
 										let card = e.target.closest('.info');
 										e.target.scrollTop = 0;
 										if (card.classList.contains('fixed')) {
