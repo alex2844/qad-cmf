@@ -497,30 +497,43 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 .carousel > button.next {
 	right: 10px;
 }
+.snackbar, .banner {
+	display: flex;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+    letter-spacing: .0178571429em;
+    text-decoration: inherit;
+    text-transform: inherit;
+    flex-grow: 1;
+    padding: 14px 16px;
+    z-index: 100;
+    transition: opacity .15s cubic-bezier(0,0,.2,1) 0ms,transform .15s cubic-bezier(0,0,.2,1) 0ms;
+}
+.banner {
+	margin: -18px -18px 18px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+	flex-flow: row wrap;
+	align-items: flex-end;
+    justify-content: flex-start;
+}
 .snackbar {
 	background-color: #333;
 	min-width: 344px;
 	max-width: 672px;
 	box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
 	border-radius: 4px;
-	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	color: #e4e4e4;
-	font-size: .875rem;
-	line-height: 1.25rem;
-	font-weight: 400;
-	letter-spacing: .0178571429em;
-	text-decoration: inherit;
-	text-transform: inherit;
-	flex-grow: 1;
-	padding: 14px 16px;
-	z-index: 100;
 	margin: 8px;
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	transition: opacity .15s cubic-bezier(0,0,.2,1) 0ms,transform .15s cubic-bezier(0,0,.2,1) 0ms;
+}
+.banner:not([data-open="true"]) {
+	display: none;
 }
 .snackbar:not([data-open="true"]) {
 	transform: scale(0);
@@ -532,12 +545,20 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 	opacity: 1;
 	pointer-events: auto;
 }
-.snackbar:before {
+.snackbar:before, .banner:before {
 	display: inline;
 	content: attr(data-content);
 }
 .snackbar button {
 	margin: -14px 0;
+}
+.banner button {
+    margin: -6px 0;
+    margin-left: auto;
+	margin-bottom: -6px !important;
+}
+.banner button:not(.material-icons) {
+	min-width: fit-content;
 }
 .snackbar button.material-icons {
 	color: #e4e4e4 !important;
@@ -550,10 +571,10 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 .snackbar button {
 	margin-left: auto;
 }
-.snackbar button ~ button {
+.snackbar button ~ button, .banner button ~ button {
 	margin-left: 8px;
 }
-.snackbar button:last-child {
+.snackbar button:last-child, .banner button:last-child {
 	margin-right: -8px;
 }
 @media (max-width: 344px), (max-width: 480px) {

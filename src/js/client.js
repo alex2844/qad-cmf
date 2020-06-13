@@ -304,32 +304,30 @@
 		}
 		snackbar(el, b, cb, force) {
 			if (!this._snackbar)
-				this._snackbar = [];
+				this._snackbar = [[], []];
+			let i = (((typeof(el) == 'string') || el.classList.contains('snackbar')) ? 1 : 0);
 			if (!force)
-				this._snackbar.push([el, b, cb]);
-			if ((this._snackbar.length == 1) || force) {
+				this._snackbar[i].push([el, b, cb]);
+			if ((this._snackbar[i].length == 1) || force) {
 				let _el;
 				if (typeof(el) == 'string') {
 					el = this.$('<div class="snackbar">'+(_el = el)+'</div>');
 					if (b && cb)
 						el.firstElementChild.append(this.$('<button>'+b+'</button>').firstElementChild.on('click', cb));
 					this.$('.content').append((el = el.firstElementChild));
-				}else{
-					let _cl;
-					if ((_cl = el.$('.material-icons')) && (_cl.innerText.trim() == 'close'))
-						_cl.onclick = el.close;
 				}
 				el.close = () => {
-					this._snackbar.shift();
+					this._snackbar[i].shift();
 					el.dataset.open = false;
-					if (this._snackbar.length)
-						setTimeout(() => this.snackbar(this._snackbar[0][0], this._snackbar[0][1], this._snackbar[0][2], true), 300);
+					if (this._snackbar[i].length)
+						setTimeout(() => this.snackbar(this._snackbar[i][0][0], this._snackbar[i][0][1], this._snackbar[i][0][2], true), 300);
 					if (_el)
 						setTimeout(() => el.remove(), 300);
 				}
-				console.log(el);
+				el.onclick = el.close;
 				el.dataset.open = true;
-				setTimeout(() => el.close(), 5000);
+				if (i)
+					setTimeout(() => el.close(), 5000);
 			}
 		}
 		init_() {

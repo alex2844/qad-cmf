@@ -275,51 +275,7 @@
 				</section>
 			</aside>
 			<section onprerender="(url.nohtabs ? (this.style.setProperty('display', 'flex'), this.style.setProperty('flex-direction', 'column-reverse')) : (this.classList.add('tabs')))">
-<style>
-.banner[data-open="true"] {
-    transform: scale(1);
-    opacity: 1;
-    pointer-events: auto;
-}
-.banner {
-	margin: -18px -18px 18px;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-	display: flex;
-	flex-flow: row wrap;
-	align-items: flex-end;
-    justify-content: flex-start;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    font-weight: 400;
-    letter-spacing: .0178571429em;
-    text-decoration: inherit;
-    text-transform: inherit;
-    flex-grow: 1;
-    padding: 14px 16px;
-    z-index: 100;
-    transition: opacity .15s cubic-bezier(0,0,.2,1) 0ms,transform .15s cubic-bezier(0,0,.2,1) 0ms;
-}
-.banner:before {
-    display: inline;
-    content: attr(data-content);
-}
-.banner button:not(.material-icons) {
-	min-width: fit-content;
-}
-.banner button {
-    margin: -6px 0;
-    margin-left: auto;
-	margin-bottom: -6px !important;
-}
-.banner button ~ button {
-    margin-left: 8px;
-}
-.banner button:last-child {
-    margin-right: -8px;
-}
-</style>
-				<div class="banner" data-open="true">
+				<div class="banner" onrender="qad.snackbar(this)">
 					Какой-то текст
 					<button>ok</button>
 				</div>
