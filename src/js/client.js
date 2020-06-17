@@ -337,7 +337,7 @@
 						nav = (header && header.$('nav.tabs')),
 						content = this.$('body > .content'),
 						aside = this.$$('body > aside, main > aside'),
-						onrender = this.$$('[onrender]'),
+						onrender = this.$$('[onrender]:not([data-google])'),
 						onvisibilitychange = this.$$('[onvisibilitychange]');
 					if (header) {
 						this.init.header(header, nav);
@@ -890,7 +890,7 @@
 								'input', 'textarea', 'radio', 'select', 'checkbox', 'linear', 'title', 'grid', 'section', 'date', 'time', 'image', 'video'
 							];
 							if (!el.getAttribute('action'))
-								el.action = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSeLYwB43NtEnsgWZ1aWsbsFTiJocK0TrOAJYbqtfGqiEqE-ug/formResponse';
+								el.action = 'https://docs.google.com/forms/u/0/d/e/'+el.dataset.google+'/formResponse';
 							if (!el.getAttribute('method'))
 								el.method = 'POST';
 							body += '<h2>'+d.header+'</h2>';
@@ -965,6 +965,9 @@
 									else
 										el.reset();
 								});
+							let onrender = el.getAttribute('onrender');
+							if (onrender)
+								el.on('render', (new Function(onrender)).bind(el), { once: true }).emit('render');
 						});
 					}
 				})).observe(el),
