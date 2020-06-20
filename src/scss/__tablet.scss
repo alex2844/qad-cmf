@@ -433,7 +433,7 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 	font-size: 1.25rem;
 	font-weight: 500;
 	letter-spacing: .0125em;
-	margin: 1rem 1rem 0 1rem;
+	margin: 1rem;
 	color: var(--color);
 }
 .card h3 {
@@ -442,7 +442,7 @@ article > div[id]:first-child > h2:first-child, article > h2:first-child {
 	font-weight: 500;
 	letter-spacing: .0071428571em;
 	color: rgba(var(--color-rgb), .54);
-	margin: 0 1rem 1rem 1rem;
+	margin: -1rem 1rem 1rem 1rem;
 }
 .card p {
 	color: rgba(var(--color-rgb), .54);
