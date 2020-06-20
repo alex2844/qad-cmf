@@ -838,8 +838,8 @@
 							busy = false;
 						}));
 					}
-					aside.close = () => {
-						return (busy ? Promise.reject() : back(!(busy = aside.hidden = true)).then(function() {
+					aside.close = e => {
+						return ((busy || (e && e.target.closest('aside'))) ? Promise.reject() : back(!(busy = aside.hidden = true)).then(function() {
 							content.off('click', aside.close);
 							delete aside.dataset.open;
 							delete document.body.dataset.modal;
