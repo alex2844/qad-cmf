@@ -297,6 +297,7 @@ aside nav a.active, aside nav a.active .material-icons, button:not(.color):not([
 }
 .carousel > button {
 	color: var(--theme, #000) !important;
+	z-index: 2;
 }
 .snackbar > button {
 	color: var(--theme, #fff) !important;
