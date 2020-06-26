@@ -1366,10 +1366,6 @@ ul.avatar-list li i {
 dialog.scrolled h2, dialog.scrolled footer {
 	border-color: var(--border);
 }
-.fab .spinner:after {
-	height: 48px;
-	width: 48px;
-}
 .fab button:last-child.spinner:after {
 	border-top-color: var(--color);
 }

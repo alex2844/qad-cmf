@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html onprerender="
 	(url.font_size && this.style.setProperty('font-size', url.font_size)),
+	(url.os && this.setAttribute('data-user-mode', url.os)),
 	(url.reduced_motion && this.setAttribute('data-user-reduced-motion', url.reduced_motion)),
 	(url.color_scheme && this.setAttribute('data-user-color-scheme', url.color_scheme)),
 	(url.color_theme && window.addEventListener('load', () => (qad.color_theme = '#'+url.color_theme)))
@@ -13,7 +14,7 @@
 	<meta name="author" content="Alex Smith, https://me.qwedl.com/"/>
 	<!-- meta name="color-scheme" content="dark light" / -->
 	<title>QAD CMF Demo</title>
-	<style>body,html.spinner body{visibility:hidden}html:after,.spinner:after{content:'';border-radius:50%;border:4px transparent solid;border-top-color:var(--theme,#3F51B5);animation:spinner 1s infinite;position:fixed}html:after{height:40px;width:40px;left:50%;top:50%;margin:-20px 0 0 -20px}@keyframes spinner{to{transform:rotate(360deg)}}</style>
+	<style>body,html.spinner body{visibility:hidden}html:after,.spinner:after{content:'';border-radius:50%;border:4px transparent solid;border-top-color:var(--theme,#3F51B5);animation:spinner 1s infinite}html:after,button.spinner:after{position:fixed}html:after{height:40px;width:40px;left:50%;top:50%;margin:-20px 0 0 -20px}@keyframes spinner{to{transform:rotate(360deg)}}</style>
 	<link rel="preload" href="dist/css/full.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
 	<noscript><link rel="stylesheet" href="dist/css/full.css" /></noscript>
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
@@ -551,14 +552,14 @@
 							</footer>
 						</form>
 					</dialog>
-					<h2>Выпадающий список</h2>
+					<h2>Выпадающий список <small id="menu" style="font-size: small;"></small></h2>
 					<label class="menu" tabindex="-1">
 						<span>Меню</span>
 						<ul>
-							<li>Art</li>
-							<li>Coding</li>
-							<li>Design</li>
-							<li>Web Development</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Art</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Coding</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Design</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Web Development</li>
 						</ul>
 					</label>
 					<h2>Заголовки</h2>
@@ -756,6 +757,17 @@
 							<li tabindex="0"><span>List item 2</span></li>
 							<li tabindex="0"><span>List item 3</span></li>
 						</ul>
+					</details>
+					<h2>Прогресс бар</h2>
+					<button onclick="document.documentElement.classList.toggle('spinner'), setTimeout(() => document.documentElement.classList.toggle('spinner'), 5000)">Full spinner</button>
+					<button onclick="(qad.$('[name=\'nofbutton\']').checked && ((qad.$('[name=\'nofbutton\']').checked = false), qad.$('[name=\'nofbutton\']').emit('change')), qad.$('.fab button').classList.add('spinner'))">Float button spinner</button>
+					<div class="spinner"></div>
+					<progress max="100" value="25"></progress>
+					<div class="progress"><span style="width: 70%"></span></div>
+					<div class="progress"><span></span></div>
+					<details>
+						<summary class="progress">Spoiler loader</summary>
+						<p>Hidden text</p>
 					</details>
 					<h2>Карточки</h2>
 					<div class="card" style="max-width: 400px">
