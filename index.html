@@ -562,6 +562,19 @@
 							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Web Development</li>
 						</ul>
 					</label>
+					<br /><br />
+					<label class="menu" id="context" tabindex="-1">
+						<ul>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Art</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Coding</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Design</li>
+							<li onclick="(qad.$('#menu').innerText = '('+this.innerText+')')">Web Development</li>
+						</ul>
+					</label>
+					<span onclick="alert('Нажмите правой кнопкой мыши')" onrender="(el => el.on('contextmenu', e => {
+						e.preventDefault();
+						$('#context').focus();
+					}))(this)">Контекстное меню</span>
 					<h2>Заголовки</h2>
 					<h1>Тег: h1</h1>
 					<h2>Тег: h2</h2>
