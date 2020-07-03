@@ -759,6 +759,9 @@ label.input input, label.input textarea, label.select select {
 	border-radius: 4px;
 	-webkit-appearance: none;
 }
+label.input input[type="file"] {
+	padding-top: 0.875rem;
+}
 label.input input[type="color"] {
 	min-width: 64px;
 }
@@ -791,8 +794,10 @@ label.input input ~ span, label.input textarea ~ span, label.select select ~ spa
 	overflow: hidden;
 	will-change: transform;
 }
-label.input input:focus, label.input textarea:focus, label.select select:focus {
+label.input input:not([type="file"]):focus, label.input textarea:focus, label.select select:focus {
 	padding: 0 15px;
+}
+label.input input:focus, label.input textarea:focus, label.select select:focus {
 	border: 0.125rem solid var(--theme, var(--color));
 }
 label.input input:focus ~ span, label.input textarea:focus ~ span, label.select select:focus ~ span {
@@ -834,9 +839,18 @@ label.input [required] + span:after, label.select [required] + span:after {
 	margin-left: 1px;
 	content: '*';
 }
-label.select:after, label.input.menu:after {
+label.select:not(.svg):after, label.input.menu:not(.svg):after {
 	content: 'arrow_drop_down';
-	pointer-events: none;
+}
+label.select.svg:after, label.input.menu.svg:after {
+    content: '';
+    height: 24px;
+    width: 24px;
+    background: url(https://fonts.gstatic.com/s/i/materialicons/arrow_drop_down/v6/24px.svg) no-repeat right;
+    filter: invert(1);
+}
+label.select:after, label.input.menu:after {
+    pointer-events: none;
 }
 label.input [placeholder]:invalid:not(:focus):not(:placeholder-shown):not(:-webkit-autofill) {
 	border-color: #b00020;

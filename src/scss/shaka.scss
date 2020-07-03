@@ -1,0 +1,26 @@
+[data-shaka-player-container] {
+	button:before {
+		content: none;
+	}
+	button {
+		min-width: 0;
+		align-items: inherit;
+		vertical-align: inherit;
+		justify-content: inherit;
+		user-select: inherit;
+		padding: inherit;
+		overflow: inherit;
+		letter-spacing: inherit;
+		height: inherit;
+		border: inherit;
+		outline: inherit;
+		opacity: inherit;
+		border-radius: inherit;
+		margin-bottom: inherit;
+		font-weight: inherit !important;
+		text-transform: inherit !important;
+	}
+	.shaka-settings-menu button {
+		color: #000 !important;
+	}
+}

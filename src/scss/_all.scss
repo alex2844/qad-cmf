@@ -44,7 +44,7 @@
 	background-repeat: no-repeat;
 	box-sizing: border-box;
 }
-body, button:not(.material-icons), [type="submit"], label.input input, label.input textarea, label.select select {
+body, button:not([class*=material-icons]), [type="submit"], label.input input, label.input textarea, label.select select {
 	font-family: Roboto, sans-serif;
 }
 html:not([data-user-mode]) {
@@ -482,7 +482,7 @@ nav.tabs > button.color {
 	color: var(--color);
 	width: 100%;
 }
-.chip, .fab img, .fab svg, button:not(.material-icons), [type="submit"] {
+.chip, .fab img, .fab svg, button:not([class*=material-icons]), [type="submit"] {
 	font-size: .875rem;
 }
 .chip, .fab img, .fab svg, button:not([disabled]), [type="submit"]:not([disabled]), [onclick], a {
@@ -497,7 +497,7 @@ button, [type="submit"] {
 	border-radius: 4px;
 	margin-bottom: 5px;
 }
-button:not(.material-icons):not(.card), [type="submit"], nav.tabs > * {
+button:not([class*=material-icons]):not(.card), [type="submit"], nav.tabs > * {
 	font-weight: 500;
 	text-transform: uppercase;
 }
