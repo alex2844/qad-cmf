@@ -1310,7 +1310,7 @@ header button[data-badge] {
 	padding-top: 14px !important;
 	margin-top: -14px;
 }
-[data-badge]:after {
+[data-badge]:not(.progress):after {
 	content: attr(data-badge);
 	transform: scale(1) translate(50%, -50%);
 	transform-origin: 100% 0%;

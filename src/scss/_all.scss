@@ -511,9 +511,19 @@ button:not([class*=material-icons]):not(.card), [type="submit"], nav.tabs > * {
 	height: calc(100% - 14px);
 	position: absolute;
 }
-.spinner:not(html):not(button), button.spinner:after {
+.spinner:not(html):not(button), button.spinner[class*=material-icons]:after {
 	height: 48px;
 	width: 48px;
+}
+button.spinner:not([class*=material-icons]):after {
+	height: 30px;
+	width: 30px;
+}
+button.spinner:not([class*=material-icons]) {
+	font-size: 0;
+}
+button.spinner.color:after {
+	border-top-color: var(--bcolor, #fff);
 }
 progress::-webkit-progress-bar {
 	background-image: linear-gradient(to right, rgba(255,255,255,.76), rgba(255,255,255,.76)), linear-gradient(to right, var(--theme, var(--color)), var(--theme, var(--color)));
