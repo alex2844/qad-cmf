@@ -423,7 +423,7 @@ nav.tabs {
 	-webkit-transform: none;
 	transform: none;
 }
-nav.tabs > * {
+nav.tabs > *:not([class*=material-icons]) {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 	font-size: .875rem;
@@ -497,7 +497,7 @@ button, [type="submit"] {
 	border-radius: 4px;
 	margin-bottom: 5px;
 }
-button:not([class*=material-icons]):not(.card), [type="submit"], nav.tabs > * {
+button:not([class*=material-icons]):not(.card), [type="submit"], nav.tabs > *:not([class*=material-icons]) {
 	font-weight: 500;
 	text-transform: uppercase;
 }
