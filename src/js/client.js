@@ -459,10 +459,10 @@
 								list = this.$('<div id="'+'_'+Math.random().toString(36).substr(2, 9)+'"><h2 class="'+div.$('h2').getAttribute('class')+'">'+el.getAttribute('aria-label')+'</h2><div class="carousel"><div></div></div></div>').firstElementChild,
 								list_ = list.$('.carousel div');
 							[].slice.call(el.children).forEach(el_ => {
-								let clone = el_.cloneNode(true);
+								let clone = ((el_.tagName == 'DETAILS') ? $('<a href="'+el_.dataset.href+'" title="'+el_.title+'">'+el_.firstElementChild.dataset.icon+'</a>').firstElementChild : el_.cloneNode(true));
 								clone.classList.add('card');
 								clone.classList.remove('material-icons');
-								clone.innerHTML = '<div class="media" style="--aspect-ratio:16/9;"><i class="material-icons">'+clone.innerHTML+'</i></div><h2>'+clone.title+'</h2><br>';
+								clone.innerHTML = '<div class="media" style="--aspect-ratio:16/9;"><i class="material-icons">'+clone.innerHTML+'</i></div><h2>'+clone.title+'</h2>';
 								list_.append(clone);
 							});
 							/*
