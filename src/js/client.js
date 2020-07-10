@@ -243,7 +243,9 @@
 			return arr;
 		}
 		$(css, parent) {
-			if (typeof(css) == 'string') {
+			if (!css)
+				return window;
+			else if (typeof(css) == 'string') {
 				if ((css.slice(0, 1) == '<') && (css.slice(-1) == '>'))
 					return document.createElement('template').html(css).content;
 				return (parent || document).querySelector(css);
