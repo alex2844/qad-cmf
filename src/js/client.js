@@ -462,7 +462,7 @@
 								list_ = list.$('.carousel div');
 							[].slice.call(el.children).forEach(el_ => {
 								let clone = ((el_.tagName == 'DETAILS') ? $('<a class="material-icons" href="'+el_.dataset.href+'" title="'+el_.firstElementChild.innerHTML+'">'+el_.firstElementChild.dataset.icon+'</a>').firstElementChild : el_.cloneNode(true)),
-									ti = (clone.classList.contains('material-icons') ? [ clone.innerHTML, clone.title ] : [ clone.dataset.icon, clone.innerHTML ]);
+									ti = (clone.classList.contains('material-icons') ? [ clone.innerHTML, clone.title ] : [ (clone.dataset.icon || clone.$('i').innerHTML), clone.innerHTML.replace(/<i .*\/i>/, '') ]);
 								clone.innerHTML = '<div class="media" style="--aspect-ratio:16/9;"><i class="material-icons">'+ti[0]+'</i></div><h2>'+ti[1]+'</h2>';
 								clone.removeAttribute('data-icon');
 								clone.classList.add('card');
