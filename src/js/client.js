@@ -401,10 +401,10 @@
 					}
 					window.on('hashchange', () => {
 						let sel;
-						if (nav && (sel = nav.$('a[href^="'+location.hash+'"]')))
+						if (location.hash && (location.hash.indexOf('=') == -1) && nav && (sel = nav.$('a[href^="'+location.hash+'"]')))
 							_tabset(sel);
 					}).on('load', () => {
-						if (location.hash) {
+						if (location.hash && (location.hash.indexOf('=') == -1)) {
 							let sel;
 							if (nav && (sel = nav.$('a[href^="'+location.hash+'"]')))
 								_tabset(sel);
