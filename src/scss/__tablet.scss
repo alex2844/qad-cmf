@@ -1337,7 +1337,8 @@ header button[data-badge] {
 	top: 1.15rem;
 }
 dialog {
-	max-height: calc(100% - 32px);
+	/* max-height: calc(100% - 32px); */
+	max-height: 90%;
 }
 dialog::backdrop {
 	background-color: rgba(0, 0, 0, .32);
