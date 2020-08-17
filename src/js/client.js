@@ -128,8 +128,21 @@
 				}
 			});
 			Object.defineProperties(this, {
+				color_header: {
+					get: () => {
+						let header = $('body > header, body > .content > header');
+						let color = (
+							(header && (header.classList.contains('color') || header.classList.contains('prominent')))
+							? this.color_theme
+							: getComputedStyle(document.documentElement).getPropertyValue('--background').replace(/[^a-z0-9#]+/gi, '')
+						);
+						return ((color.length === 4) ? '#'+color.slice(1).split('').map(hex => (hex + hex)).join('') : color);
+					},
+					enumerable: true,
+					configurable: true
+				},
 				color_theme: {
-					get: () => (window._color_theme || getComputedStyle(document.documentElement).getPropertyValue('--theme').replace(/[^a-z0-9#-]+/gi,'')),
+					get: () => (window._color_theme || getComputedStyle(document.documentElement).getPropertyValue('--theme').replace(/[^a-z0-9#-]+/gi, '')),
 					set: (val) => {
 						let c = this.color(val),
 							l = c.luminance,
@@ -148,7 +161,7 @@
 					configurable: true
 				},
 				color_scheme: {
-					get: () => (document.documentElement.getAttribute('data-user-color-scheme') || (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi,''))),
+					get: () => (document.documentElement.getAttribute('data-user-color-scheme') || (getComputedStyle(document.documentElement).getPropertyValue('--scheme').replace(/[^a-z0-9#-]+/gi, ''))),
 					set: (val) => {
 						window.localStorage.setItem('color_scheme', val);
 						if (!val || (val == 'auto'))
@@ -172,7 +185,7 @@
 					configurable: true
 				},
 				reduced_motion: {
-					get: () => (window._reduced_motion || location.search.split('reduced_motion=').slice(1).join().split('&').slice(0, 1).join() || getComputedStyle(document.documentElement).getPropertyValue('--motion').replace(/[^a-z0-9#-]+/gi,'')),
+					get: () => (window._reduced_motion || location.search.split('reduced_motion=').slice(1).join().split('&').slice(0, 1).join() || getComputedStyle(document.documentElement).getPropertyValue('--motion').replace(/[^a-z0-9#-]+/gi, '')),
 					set: (val) => {
 						window._reduced_motion = val;
 						if (!val || (val == 'auto'))
@@ -635,7 +648,7 @@
 						}
 						return ps;
 					}
-					this.$('head').append(this.$('<meta name="theme-color" content="'+((header.classList.contains('color') || header.classList.contains('prominent')) ? this.color_theme : getComputedStyle(document.documentElement).getPropertyValue('--background').replace(/[^a-z0-9#]+/gi,''))+'" />'));
+					this.$('head').append(this.$('<meta name="theme-color" content="'+this.color_header+'" />'));
 					if (getComputedStyle(header).position == 'sticky')
 						document.on('scroll', e => {
 							if (this.reduced_motion == 'reduce')
