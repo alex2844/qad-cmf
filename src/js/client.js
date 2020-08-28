@@ -4,9 +4,35 @@
 			this.libs();
 			let self = this;
 			let scheme, mode;
+			if ('corsProxy' in window) {
+				if ('Manifest' in corsProxy)
+					Object.entries(JSON.parse(corsProxy.Manifest())).forEach(cp => (corsProxy[cp[0]] = cp[1]));
+				if ('runAsync' in corsProxy)
+					corsProxy.async = (f, p) => {
+						if (p && p.signal && p.signal.aborted)
+							return Promise.reject(new DOMException('Aborted', 'AbortError'));
+						const r = 'Java_'+f+'_'+Math.floor(Math.random()*10000);
+						window[r] = {};
+						window[r].callback = ok => {
+							window[r][(ok ? 'res' : 'rej')](corsProxy.runAsyncResult(r));
+							delete window[r];
+						};
+						corsProxy.runAsync(r, f, ((typeof(p) == 'object') ? JSON.stringify(p) : (p || '')));
+						return new Promise((res, rej) => {
+							if (p && p.signal)
+								p.signal.addEventListener('abort', () => {
+									delete window[r];
+									rej(new DOMException('Aborted', 'AbortError'));
+								});
+							window[r].res = d => res(d);
+							window[r].rej = err => rej(err);
+						});
+					}
+			}else
+				window.corsProxy = JSON.parse(document.documentElement.dataset.corsProxy || 'null');
 			if (scheme = window.localStorage.getItem('color_scheme'))
 				document.documentElement.setAttribute('data-user-color-scheme', scheme);
-			if (mode = window.localStorage.getItem('mode'))
+			if (mode = (window.localStorage.getItem('mode') || (corsProxy && (corsProxy.mode || '').replace(/(chromeos|tablet)/, ''))))
 				document.documentElement.setAttribute('data-user-mode', mode);
 			if (!('$' in window) && !('$$' in window)) {
 				window.$ = self.$.bind(self);
