@@ -7,7 +7,7 @@
 			if ('corsProxy' in window) {
 				if ('Manifest' in corsProxy)
 					Object.entries(JSON.parse(corsProxy.Manifest())).forEach(cp => (corsProxy[cp[0]] = cp[1]));
-				if ('runAsync' in corsProxy)
+				if ('runAsync' in corsProxy) {
 					corsProxy.async = (f, p) => {
 						if (p && p.signal && p.signal.aborted)
 							return Promise.reject(new DOMException('Aborted', 'AbortError'));
@@ -28,6 +28,26 @@
 							window[r].rej = err => rej(err);
 						});
 					}
+					corsProxy.fetch = (u, o) => {
+						if (!o)
+							o = {};
+						if (o.body && (o.body.constructor.name == 'FormData'))
+							o.body = new URLSearchParams(o.body).toString();
+						o.headers = Object.assign(Object.fromEntries([
+							['Cookie', ((new URL(o.url = u).host == location.host) && document.cookie)],
+							['Origin', (location.host && location.protocol+'//'+location.host)],
+							['Referer', (location.host && location.protocol+'//'+location.host+'/')],
+							['User-Agent', navigator.userAgent]
+						].filter(v => v[1])), o.headers);
+						return corsProxy.async('fetchAsync', o).then(d => JSON.parse(d)).then(d => Object.defineProperties(new Response(new Uint8Array(d.body), {
+							status: d.status,
+							headers: d.headers
+						}), {
+							url: { value: o.url },
+							method: { value: (o.method || 'GET') }
+						}));
+					}
+				}
 			}else
 				window.corsProxy = JSON.parse(document.documentElement.dataset.corsProxy || 'null');
 			if (scheme = window.localStorage.getItem('color_scheme'))
