@@ -52,7 +52,7 @@
 				window.corsProxy = JSON.parse(document.documentElement.dataset.corsProxy || 'null');
 			if (scheme = window.localStorage.getItem('color_scheme'))
 				document.documentElement.setAttribute('data-user-color-scheme', scheme);
-			if (mode = (window.localStorage.getItem('mode') || (corsProxy && (corsProxy.mode || '').replace(/(chromeos|tablet)/, ''))))
+			if (mode = (window.localStorage.getItem('mode') || (corsProxy && corsProxy.mode) || '').replace(/(chromeos|tablet)/, ''))
 				document.documentElement.setAttribute('data-user-mode', mode);
 			if (!('$' in window) && !('$$' in window)) {
 				window.$ = self.$.bind(self);
