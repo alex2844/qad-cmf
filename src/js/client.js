@@ -695,7 +695,7 @@
 						return ps;
 					}
 					this.$('head').append(this.$('<meta name="theme-color" content="'+this.color_header+'" />'));
-					if (('corsProxy' in window) && ('theme' in corsProxy))
+					if (('corsProxy' in window) && corsProxy && ('theme' in corsProxy))
 						corsProxy.theme(this.color_header);
 					if (getComputedStyle(header).position == 'sticky')
 						document.on('scroll', e => {
