@@ -111,6 +111,9 @@
 					if ((self.mode == 'tv') && ('SpatialNavigation' in window)) {
 						self.controller_.focusDialog = (event && event.target);
 						[ 'aside', 'body' ].forEach(c => SpatialNavigation.disable(c));
+						let fel = SpatialNavigation.getElements('dialog');
+						if (fel.length)
+							fel[0].focus();
 					}
 					if (((self.mode != 'tv') && se && (se.scrollHeight != se.offsetHeight)) || ((self.mode == 'tv') && !this.form))
 						this.classList.add('scrolled');
@@ -622,6 +625,7 @@
 							sn();
 						else{
 							let script = document.createElement('script');
+							// script.src = '../../js-spatial-navigation/spatial_navigation.js';
 							script.src = 'https://alex2844.github.io/js-spatial-navigation/spatial_navigation.min.js';
 							script.on('load', () => sn());
 							document.body.append(script);
