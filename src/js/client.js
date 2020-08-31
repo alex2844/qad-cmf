@@ -778,14 +778,12 @@
 					}
 					let ts = e => {
 						if (busy || (fid !== null) || (e.touches.length !== 1) || !fc(e.target) || (!aside.visible && (
-							(left && (e.touches[0].clientX >= 20)) ||
-							(!left && (window.innerWidth - e.touches[0].clientX) >= 20)
+							(left && (e.touches[0].clientX >= 25)) ||
+							(!left && (window.innerWidth - e.touches[0].clientX) >= 25)
 						)))
 							return;
-						/*
-						if (!aside.visible)
+						if (!aside.visible && ([ 'BUTTON', 'A' ].indexOf(e.target.tagName) == -1))
 							e.preventDefault();
-							*/
 						fid = e.touches[0].identifier;
 						st = e.timeStamp;
 						sx = e.touches[0].clientX;
@@ -850,7 +848,7 @@
 						if ((left && (document.documentElement.clientWidth < 1024)) || (!left && (document.documentElement.clientWidth < 640)))
 							document.body.dataset.modal = aside.dataset.open = !!(aside.style.display = 'flex');
 						setTransformX((cw = px = Math.min(px, aside.offsetWidth)) - aside.offsetWidth);
-						content.style.setProperty('--_co', (co = 0.32 * px / aside.offsetWidth));
+						// content.style.setProperty('--_co', (co = 0.32 * px / aside.offsetWidth));
 					}
 					let back = show => {
 						return new Promise((resolve) => {
@@ -875,8 +873,8 @@
 									tt = cw - easeOutQuad(tp, 0, cw + 30, duration);
 								}
 								setTransformX((-1 * aside.offsetWidth) + tt);
-								if (document.documentElement.clientWidth < 1024)
-									content.style.setProperty('--_co', to);
+								// if (document.documentElement.clientWidth < 1024)
+									// content.style.setProperty('--_co', to);
 								if (tp < duration)
 									requestAnimationFrame(animate);
 								else{

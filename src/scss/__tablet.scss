@@ -1423,14 +1423,19 @@ dialog.scrolled h2, dialog.scrolled footer {
 		bottom: 0;
 		right: 0;
 		z-index: -1;
+		opacity: .32;
+		/*
 		opacity: var(--_co, 0);
 		will-change: opacity;
+		*/
+		display: none;
 	}
 	body>aside:not([data-open]) {
 		display: none;
 	}
 	body[data-modal] .content:after {
 		z-index: 10;
+		display: block;
 	}
 	body>aside {
 		box-shadow: 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
