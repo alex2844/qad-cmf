@@ -523,8 +523,15 @@
 								list = this.$('<div id="'+'_'+Math.random().toString(36).substr(2, 9)+'"><h2 class="'+div.$('h2').getAttribute('class')+'">'+el.getAttribute('aria-label')+'</h2><div class="carousel"><div></div></div></div>').firstElementChild,
 								list_ = list.$('.carousel div');
 							[].slice.call(el.children).forEach(el_ => {
-								let clone = ((el_.tagName == 'DETAILS') ? $('<a class="material-icons" href="'+el_.dataset.href+'" title="'+el_.firstElementChild.innerHTML+'">'+el_.firstElementChild.dataset.icon+'</a>').firstElementChild : el_.cloneNode(true)),
-									ti = ((clone.style[0] == '--iconURL') ? [ '', clone.title ] : (clone.classList.contains('material-icons') ? [ clone.innerHTML, clone.title ] : [ (clone.dataset.icon || clone.$('i').innerHTML), clone.innerHTML.replace(/<i .*\/i>/, '') ]));
+								let clone;
+								if (el_.tagName != 'DETAILS')
+									clone = el_.cloneNode(true);
+								else{
+									let s = el_.firstElementChild,
+										a = s.firstElementChild;
+									clone = $('<a class="material-icons" href="'+a.href+'" title="'+a.innerHTML+'">'+s.dataset.icon+'</a>').firstElementChild;
+								}
+								let ti = ((clone.style[0] == '--iconURL') ? [ '', clone.title ] : (clone.classList.contains('material-icons') ? [ clone.innerHTML, clone.title ] : [ (clone.dataset.icon || clone.$('i').innerHTML), clone.innerHTML.replace(/<i .*\/i>/, '') ]));
 								clone.innerHTML = '<div class="media" style="--aspect-ratio:16/9;">'+(ti[0] ? '<i class="material-icons">'+ti[0]+'</i>' : '')+'</div><h2>'+ti[1]+'</h2>';
 								clone.removeAttribute('data-icon');
 								clone.classList.add('card');

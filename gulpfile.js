@@ -6,7 +6,9 @@ const
 	plumber = require('gulp-plumber'),
 	sass = require('gulp-sass'),
 	cleanCSS = require('gulp-clean-css'),
-	closureCompiler = require('google-closure-compiler').gulp(),
+	babel = require('gulp-babel'),
+	uglify = require('gulp-uglify'),
+	// closureCompiler = require('google-closure-compiler').gulp(),
 	browserSync = require('browser-sync').create();
 
 get = (url, cb) => https.get(url, d => {
@@ -65,6 +67,7 @@ gulp.task('css', done => {
 		.pipe(browserSync.stream());
 });
 gulp.task('js', done => {
+	/*
 	let task = gulp.src([
 		'src/js/client.js'
 	]).pipe(plumber());
@@ -74,6 +77,10 @@ gulp.task('js', done => {
 			js_output_file: 'client.js'
 		}, { platform: ['native', 'java', 'javascript'] }));
 	task.pipe(gulp.dest('dist/js')).on('end', () => done()).pipe(browserSync.stream());
+	 */
+	gulp.src('src/js/client.js').pipe(babel({
+		presets: ['@babel/env']
+	})).pipe(uglify()).pipe(gulp.dest('dist/js')).on('end', () => done()).pipe(browserSync.stream());
 });
 gulp.task('html', done => {
 	let fn = path.join(__dirname, '/dist/json/query.json');
