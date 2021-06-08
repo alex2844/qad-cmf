@@ -25,7 +25,7 @@ nav::-webkit-scrollbar {
 	background-color: rgba(var(--color-rgb), .6);
 	border-radius: 10px;
 }
-.material-icons[hidden] {
+.material-icons[hidden], .hide_tablet {
 	display: none;
 }
 aside, aside nav a, body, main {
