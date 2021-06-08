@@ -1,5 +1,5 @@
 aside:not(.tv), .carousel > button, footer, .snackbar, .banner, .hide_tv {
-	display: none;
+	display: none !important;
 }
 dialog {
 	height: 100%;
