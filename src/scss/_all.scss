@@ -431,7 +431,6 @@ nav.tabs > *:not([class*=material-icons]) {
 	letter-spacing: .0892857143rem;
 	padding: 0 24px;
 	position: relative;
-	display: flex;
 	flex: 1 0 auto;
 	justify-content: center;
 	height: 48px;
@@ -444,6 +443,9 @@ nav.tabs > *:not([class*=material-icons]) {
 	cursor: pointer;
 	-webkit-appearance: none;
 	z-index: 1;
+}
+nav.tabs > *:not([class*=material-icons]):not([hidden]) {
+	display: flex;
 }
 nav.tabs > button.color {
 	margin: 0 4px;
