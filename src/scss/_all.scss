@@ -301,12 +301,14 @@ ul {
 ul li, summary {
 	outline: none;
 	cursor: pointer;
-	display: flex;
 	position: relative;
 	align-items: center;
 	justify-content: flex-start;
 	padding: 0 16px;
 	min-height: 48px;
+}
+ul li:not([hidden]), summary:not([hidden]) {
+	display: flex;
 }
 ul li:hover, ul li:focus, summary:hover, summary:focus, ul li[aria-selected="true"], .progress:not(div) {
 	background: rgba(var(--color-rgb), .04);
