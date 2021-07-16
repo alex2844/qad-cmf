@@ -29,6 +29,8 @@
 						});
 					}
 					corsProxy.fetch = (u, o) => {
+						if (u.indexOf('://') == -1)
+							u = location.href.split('/').slice(0, -1).join('/')+'/'+u;
 						if (!o)
 							o = {};
 						if (o.body && (o.body.constructor.name == 'FormData'))
@@ -40,7 +42,7 @@
 							['User-Agent', navigator.userAgent]
 						].filter(v => v[1])), o.headers);
 						return corsProxy.async('fetchAsync', o).then(d => JSON.parse(d)).then(d => Object.defineProperties(new Response(new Uint8Array(d.body), {
-							status: d.status,
+							status: ((d.status == 304) ? 200 : d.status),
 							headers: d.headers
 						}), {
 							url: { value: o.url },
