@@ -268,7 +268,7 @@
 			arr = (arr || [
 				'AbortController',
 				'Object.entries', 'Object.fromEntries', 'Object.values',
-				'String.prototype.startsWith', 'String.prototype.endsWith',
+				'String.prototype.startsWith', 'String.prototype.endsWith', 'String.prototype.matchAll',
 				'Element.prototype.after', 'Element.prototype.append', 'Element.prototype.before', 'Element.prototype.prepend',
 				'Element.prototype.closest', 'Element.prototype.matches',
 				[ 'FormData.prototype.get', {
